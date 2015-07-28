@@ -12,9 +12,12 @@ TARGET = GraphView
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp
+SOURCES += main.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  +=
 
 FORMS    += mainwindow.ui
+
+LIBS += "/Users/Imanity/Documents/OGDF/_release/libOGDF.a"
+LIBS += "/Users/Imanity/Documents/OGDF/_release/libCOIN.a"
+INCLUDEPATH += "/Users/Imanity/Documents/OGDF/include"
