@@ -12,9 +12,31 @@ TARGET = GraphView
 TEMPLATE = app
 
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    Graph/fgraph.cpp \
+    Graph/fpaperconferenceauthorgraph.cpp \
+    Graph/ftopicgraph.cpp \
+    Node/fnode.cpp \
+    Node/fpapernode.cpp \
+    Node/fconferencenode.cpp \
+    Node/fauthornode.cpp \
+    Node/ftopicnode.cpp \
+    Edge/fedge.cpp \
+    Edge/fdirectededge.cpp \
+    Edge/fundirectededge.cpp
 
-HEADERS  +=
+HEADERS  += \
+    Graph/fgraph.h \
+    Graph/fpaperconferenceauthorgraph.h \
+    Graph/ftopicgraph.h \
+    Node/fnode.h \
+    Node/fpapernode.h \
+    Node/fconferencenode.h \
+    Node/fauthornode.h \
+    Node/ftopicnode.h \
+    Edge/fedge.h \
+    Edge/fdirectededge.h \
+    Edge/fundirectededge.h
 
 FORMS    += mainwindow.ui
 
