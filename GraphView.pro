@@ -40,6 +40,14 @@ HEADERS  += \
 
 FORMS    += mainwindow.ui
 
-LIBS += "/Users/Imanity/Documents/OGDF/_release/libOGDF.a"
-LIBS += "/Users/Imanity/Documents/OGDF/_release/libCOIN.a"
-INCLUDEPATH += "/Users/Imanity/Documents/OGDF/include"
+win32 {
+    LIBS += "D:/Program Files/OGDF/Win32/Debug/ogdf.lib"
+    LIBS += "D:/Program Files/OGDF/Win32/Debug/coin.lib"
+    INCLUDEPATH += "D:/Program Files/OGDF/include"
+}
+
+unix {
+    LIBS += "/Users/Imanity/Documents/OGDF/_release/libOGDF.a"
+    LIBS += "/Users/Imanity/Documents/OGDF/_release/libCOIN.a"
+    INCLUDEPATH += "/Users/Imanity/Documents/OGDF/include"
+}
