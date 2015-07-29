@@ -1,8 +1,10 @@
 #include <ogdf/energybased/FMMMLayout.h>
+#include "Graph/fpaperconferenceauthorgraph.h"
+#include "Graph/ftopicgraph.h"
 using namespace ogdf;
 
 int main(){
-    Graph G;
+    /*Graph G;
     node a = G.newNode();
     node b = G.newNode();
     node c = G.newNode();
@@ -16,6 +18,8 @@ int main(){
 
     cout << GA.x(a) << ", " << GA.y(a) << "; \n";
     cout << GA.x(b) << ", " << GA.y(b) << "; \n";
-    cout << GA.x(c) << ", " << GA.y(c) << "; \n";
+    cout << GA.x(c) << ", " << GA.y(c) << "; \n";*/
+    FPaperConferenceAuthorGraph graph;
+    graph.readFile();
     return 0;
 }

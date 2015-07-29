@@ -14,6 +14,7 @@ public:
     vector<FUndirectedEdge> undirectedEdges;
 public:
     FTopicGraph();
+    virtual void readFile();
 };
 
 #endif // FTOPICGRAPH_H

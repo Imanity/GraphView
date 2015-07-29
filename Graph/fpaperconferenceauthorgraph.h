@@ -18,6 +18,7 @@ public:
     vector<FDirectedEdge> directedEdges;
 public:
     FPaperConferenceAuthorGraph();
+    virtual void readFile();
 };
 
 #endif // FPAPERCONFERENCEAUTHORGRAPH_H

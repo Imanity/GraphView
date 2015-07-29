@@ -2123,6 +2123,7 @@ year: 1988
 authors: ANNE BRUEGGEMANN-KLEIN\nDERICK WOOD
 dateFrom: 1988
 id: ACM896281
+pageFrom: 1
 paperTitle: Drawing Trees Nicely with TeX
 paperTitleShort: Drawing Trees Nicely with TeX
 viewColor: (239,255,0,200)

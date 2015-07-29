@@ -11,6 +11,8 @@ public:
     int viewLayoutX, viewLayoutY, viewLayoutZ;          //界面显示位置
 public:
     FNode();
+    void setColor(int viewColorR, int viewColorG, int viewColorB, int viewColorA);
+    void SetLabel(char *viewLabel, int viewLayoutX, int viewLayoutY, int viewLayoutZ);
 };
 
 #endif // FNODE_H

@@ -5,3 +5,7 @@ FTopicGraph::FTopicGraph()
 
 }
 
+void FTopicGraph::readFile()
+{
+    //TODO
+}

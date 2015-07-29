@@ -6,6 +6,7 @@ class FGraph
 {
 public:
     FGraph();
+    virtual void readFile() = 0;
 };
 
 #endif // FGRAPH_H
