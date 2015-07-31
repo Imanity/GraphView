@@ -14,7 +14,7 @@ using namespace std;
 
 FPaperConferenceAuthorGraph::FPaperConferenceAuthorGraph()
 {
-
+    GA = GraphAttributes(graphView);
 }
 
 void FPaperConferenceAuthorGraph::readFile()
@@ -88,10 +88,13 @@ void FPaperConferenceAuthorGraph::readFile()
             words = lineStr.split(": ");
             viewLabel = words[1].toLatin1().data();
             lineStr = inFile.readLine();
-            viewLabelX = lineStr.section(QRegExp("[(,)]"), 1, 1).toDouble();
-            viewLabelY = lineStr.section(QRegExp("[(,)]"), 2, 2).toDouble();
+            viewLabelX = lineStr.section(QRegExp("[(,)]"), 1, 1).toDouble() * 2 - 150;
+            viewLabelY = lineStr.section(QRegExp("[(,)]"), 2, 2).toDouble() * 2 - 150;
             viewLabelZ = lineStr.section(QRegExp("[(,)]"), 3, 3).toDouble();
             newNode.SetLabel(viewLabel, viewLabelX, viewLabelY, viewLabelZ);
+            newNode.ogdfId = graphView.newNode();
+            GA.x(newNode.ogdfId) = viewLabelX;
+            GA.y(newNode.ogdfId) = viewLabelY;
             paperNodes.push_back(newNode);
         } else if(words[1] == "conference\n") //type为conference
         {
@@ -124,10 +127,13 @@ void FPaperConferenceAuthorGraph::readFile()
             words = lineStr.split(": ");
             viewLabel = words[1].toLatin1().data();
             lineStr = inFile.readLine();
-            viewLabelX = lineStr.section(QRegExp("[(,)]"), 1, 1).toDouble();
-            viewLabelY = lineStr.section(QRegExp("[(,)]"), 2, 2).toDouble();
+            viewLabelX = lineStr.section(QRegExp("[(,)]"), 1, 1).toDouble() * 2 - 150;
+            viewLabelY = lineStr.section(QRegExp("[(,)]"), 2, 2).toDouble() * 2 - 150;
             viewLabelZ = lineStr.section(QRegExp("[(,)]"), 3, 3).toDouble();
             newNode.SetLabel(viewLabel, viewLabelX, viewLabelY, viewLabelZ);
+            newNode.ogdfId = graphView.newNode();
+            GA.x(newNode.ogdfId) = viewLabelX;
+            GA.y(newNode.ogdfId) = viewLabelY;
             conferenceNodes.push_back(newNode);
         } else if(words[1] == "author\n") //author
         {
@@ -160,10 +166,13 @@ void FPaperConferenceAuthorGraph::readFile()
             words = lineStr.split(": ");
             viewLabel = words[1].toLatin1().data();
             lineStr = inFile.readLine();
-            viewLabelX = lineStr.section(QRegExp("[(,)]"), 1, 1).toDouble();
-            viewLabelY = lineStr.section(QRegExp("[(,)]"), 2, 2).toDouble();
+            viewLabelX = lineStr.section(QRegExp("[(,)]"), 1, 1).toDouble() * 2 - 150;
+            viewLabelY = lineStr.section(QRegExp("[(,)]"), 2, 2).toDouble() * 2 - 150;
             viewLabelZ = lineStr.section(QRegExp("[(,)]"), 3, 3).toDouble();
             newNode.SetLabel(viewLabel, viewLabelX, viewLabelY, viewLabelZ);
+            newNode.ogdfId = graphView.newNode();
+            GA.x(newNode.ogdfId) = viewLabelX;
+            GA.y(newNode.ogdfId) = viewLabelY;
             authorNodes.push_back(newNode);
         }
         lineStr = inFile.readLine(); //读取一空行
@@ -189,7 +198,58 @@ void FPaperConferenceAuthorGraph::readFile()
         node1 = words[0].toInt();
         node2 = words[1].toInt();
         FDirectedEdge newEdge(node1, node2);
+        graphView.newEdge(getOgdfId(node1), getOgdfId(node2));
         directedEdges.push_back(newEdge);
     }
     inFile2.close();
+}
+
+node FPaperConferenceAuthorGraph::getOgdfId(int nodeId)
+{
+    for(int i = 0; i < paperNodes.size(); ++i)
+    {
+        if(paperNodes[i].nodeId == nodeId)
+        {
+            return paperNodes[i].ogdfId;
+        }
+    }
+    for(int i = 0; i < authorNodes.size(); ++i)
+    {
+        if(authorNodes[i].nodeId == nodeId)
+        {
+            return authorNodes[i].ogdfId;
+        }
+    }
+    for(int i = 0; i < conferenceNodes.size(); ++i)
+    {
+        if(conferenceNodes[i].nodeId == nodeId)
+        {
+            return conferenceNodes[i].ogdfId;
+        }
+    }
+}
+
+FNode FPaperConferenceAuthorGraph::getNode(int nodeId)
+{
+    for(int i = 0; i < paperNodes.size(); ++i)
+    {
+        if(paperNodes[i].nodeId == nodeId)
+        {
+            return paperNodes[i];
+        }
+    }
+    for(int i = 0; i < authorNodes.size(); ++i)
+    {
+        if(authorNodes[i].nodeId == nodeId)
+        {
+            return authorNodes[i];
+        }
+    }
+    for(int i = 0; i < conferenceNodes.size(); ++i)
+    {
+        if(conferenceNodes[i].nodeId == nodeId)
+        {
+            return conferenceNodes[i];
+        }
+    }
 }

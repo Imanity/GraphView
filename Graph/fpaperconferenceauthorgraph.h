@@ -16,9 +16,13 @@ public:
     vector<FConferenceNode> conferenceNodes;
     vector<FAuthorNode> authorNodes;
     vector<FDirectedEdge> directedEdges;
+    Graph graphView;
+    GraphAttributes GA;
 public:
     FPaperConferenceAuthorGraph();
     virtual void readFile();
+    node getOgdfId(int nodeId);
+    FNode getNode(int nodeId);
 };
 
 #endif // FPAPERCONFERENCEAUTHORGRAPH_H
