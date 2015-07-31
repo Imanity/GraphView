@@ -5,7 +5,7 @@
 #include "fnode.h"
 using namespace std;
 
-class FTopicNode : FNode
+class FTopicNode : public FNode
 {
 public:
     char *topicWords;

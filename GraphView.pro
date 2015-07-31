@@ -38,7 +38,7 @@ HEADERS  += \
     Edge/fdirectededge.h \
     Edge/fundirectededge.h
 
-FORMS    += mainwindow.ui
+FORMS    +=
 
 win32 {
     LIBS += "D:/Program Files/OGDF/x64/Debug/ogdf.lib"

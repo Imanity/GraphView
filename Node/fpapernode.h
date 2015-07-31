@@ -3,7 +3,7 @@
 
 #include "fnode.h"
 
-class FPaperNode : FNode
+class FPaperNode : public FNode
 {
 public:
     int year;

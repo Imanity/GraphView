@@ -3,7 +3,7 @@
 
 #include "fedge.h"
 
-class FDirectedEdge : FEdge
+class FDirectedEdge : public FEdge
 {
 public:
     FDirectedEdge();

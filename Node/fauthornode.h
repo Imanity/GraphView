@@ -3,7 +3,7 @@
 
 #include "fnode.h"
 
-class FAuthorNode : FNode
+class FAuthorNode : public FNode
 {
 public:
     int year;
@@ -12,6 +12,7 @@ public:
     char *authorNameShort;
 public:
     FAuthorNode();
+    FAuthorNode(int nodeId, int year, char *id, char *authorName, char *authorNameShort);
 };
 
 #endif // FAUTHORNODE_H

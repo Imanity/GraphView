@@ -7,7 +7,7 @@
 #include "Edge/fundirectededge.h"
 using namespace std;
 
-class FTopicGraph : FGraph
+class FTopicGraph : public FGraph
 {
 public:
     vector<FTopicNode> topicNodes;

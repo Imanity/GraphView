@@ -3,7 +3,7 @@
 
 #include "fedge.h"
 
-class FUndirectedEdge : FEdge
+class FUndirectedEdge : public FEdge
 {
 public:
     double weight;

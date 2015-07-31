@@ -9,7 +9,7 @@
 #include "Edge/fdirectededge.h"
 using namespace std;
 
-class FPaperConferenceAuthorGraph : FGraph
+class FPaperConferenceAuthorGraph : public FGraph
 {
 public:
     vector<FPaperNode> paperNodes;

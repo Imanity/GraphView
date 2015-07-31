@@ -3,7 +3,7 @@
 
 #include "fnode.h"
 
-class FConferenceNode : FNode
+class FConferenceNode : public FNode
 {
 public:
     int year;
@@ -12,6 +12,7 @@ public:
     char *conferenceNameShort;
 public:
     FConferenceNode();
+    FConferenceNode(int nodeId, int year, char *id, char *conferenceName, char *conferenceNameShort);
 };
 
 #endif // FCONFERENCENODE_H
