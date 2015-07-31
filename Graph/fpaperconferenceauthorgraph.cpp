@@ -19,6 +19,8 @@ FPaperConferenceAuthorGraph::FPaperConferenceAuthorGraph()
 
 void FPaperConferenceAuthorGraph::readFile()
 {
+    QString lineStr;
+    QStringList words;
     //读取节点信息
     QString fileName;
     if(ISWIN == 0) //Mac下文件读取
@@ -32,8 +34,6 @@ void FPaperConferenceAuthorGraph::readFile()
     {
         cout << "Open failed." << endl;
     }
-    QString lineStr;
-    QStringList words;
     int year, dateFrom, pageFrom;
     char *authors, *id, *pageTitle, *pageTitleShort, *conferenceName, *conferenceNameShort, *authorName, *authorNameShort, *viewLabel;
     int viewColorR, viewColorG, viewColorB, viewColorA, viewLabelX, viewLabelY, viewLabelZ;
@@ -42,7 +42,6 @@ void FPaperConferenceAuthorGraph::readFile()
         //获取nodeId
         lineStr = inFile.readLine();
         int nodeId = lineStr.toInt();
-        cout << nodeId << endl;
         //获取type
         lineStr = inFile.readLine();
         words = lineStr.split(": ");
@@ -170,4 +169,27 @@ void FPaperConferenceAuthorGraph::readFile()
         lineStr = inFile.readLine(); //读取一空行
     }
     inFile.close();
+    //读取边信息
+    if(ISWIN == 0) //Mac下文件读取
+    {
+        fileName = "/Users/imanity/Documents/Qt/GraphView/GraphData/PaperConferenceAuthorGraph/Edges.txt";
+    } else { //Windows下文件读取
+        fileName = "E:/CppProjects/GraphView/GraphData/PaperConferenceAuthorGraph/Edges.txt";
+    }
+    QFile inFile2(fileName);
+    if(!inFile2.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        cout << "Open failed." << endl;
+    }
+    int node1, node2;
+    while(!inFile2.atEnd())
+    {
+        lineStr = inFile2.readLine();
+        words = lineStr.split(" ");
+        node1 = words[0].toInt();
+        node2 = words[1].toInt();
+        FDirectedEdge newEdge(node1, node2);
+        directedEdges.push_back(newEdge);
+    }
+    inFile2.close();
 }

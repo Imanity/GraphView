@@ -1,25 +1,11 @@
-#include <ogdf/energybased/FMMMLayout.h>
-#include "Graph/fpaperconferenceauthorgraph.h"
-#include "Graph/ftopicgraph.h"
-using namespace ogdf;
+#include <QObject>
+#include <QApplication>
+#include "loaddialog.h"
+#include "paperconferenceauthorwindow.h"
 
-int main(){
-    /*Graph G;
-    node a = G.newNode();
-    node b = G.newNode();
-    node c = G.newNode();
-    G.newEdge(a, b);
-    G.newEdge(b, c);
-
-    GraphAttributes GA(G);
-
-    FMMMLayout fmmm;
-    fmmm.call(GA);
-
-    cout << GA.x(a) << ", " << GA.y(a) << "; \n";
-    cout << GA.x(b) << ", " << GA.y(b) << "; \n";
-    cout << GA.x(c) << ", " << GA.y(c) << "; \n";*/
-    FPaperConferenceAuthorGraph graph;
-    graph.readFile();
-    return 0;
+int main(int argc,char* argv[]){
+    QApplication app(argc, argv);
+    LoadDialog dialog;
+    dialog.show();
+    return app.exec();
 }

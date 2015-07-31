@@ -23,7 +23,10 @@ SOURCES += main.cpp \
     Node/ftopicnode.cpp \
     Edge/fedge.cpp \
     Edge/fdirectededge.cpp \
-    Edge/fundirectededge.cpp
+    Edge/fundirectededge.cpp \
+    paperconferenceauthorwindow.cpp \
+    loaddialog.cpp \
+    aboutdialog.cpp
 
 HEADERS  += \
     Graph/fgraph.h \
@@ -36,9 +39,15 @@ HEADERS  += \
     Node/ftopicnode.h \
     Edge/fedge.h \
     Edge/fdirectededge.h \
-    Edge/fundirectededge.h
+    Edge/fundirectededge.h \
+    paperconferenceauthorwindow.h \
+    loaddialog.h \
+    aboutdialog.h
 
-FORMS    +=
+FORMS    += \
+    paperconferenceauthorwindow.ui \
+    loaddialog.ui \
+    aboutdialog.ui
 
 win32 {
     LIBS += "D:/Program Files/OGDF/x64/Debug/ogdf.lib"
@@ -51,3 +60,6 @@ unix {
     LIBS += "/Users/Imanity/Documents/OGDF/_release/libCOIN.a"
     INCLUDEPATH += "/Users/Imanity/Documents/OGDF/include"
 }
+
+RESOURCES += \
+    resource.qrc

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>LoadDialog</class>
+ <widget class="QDialog" name="LoadDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>221</width>
+    <height>171</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QPushButton" name="PCAGraphButton">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>40</y>
+     <width>221</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>PaperConferenceAuthorGraph</string>
+   </property>
+   <property name="autoDefault">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="TGraphButton">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>70</y>
+     <width>221</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TopicGraph</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>10</y>
+     <width>111</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Visualized Graph</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="openButton">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>100</y>
+     <width>221</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="aboutButton">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>130</y>
+     <width>221</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>About</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
