@@ -45,14 +45,14 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>80</x>
      <y>10</y>
-     <width>111</width>
+     <width>51</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>Visualized Graph</string>
+    <string>选择操作：</string>
    </property>
   </widget>
   <widget class="QPushButton" name="openButton">

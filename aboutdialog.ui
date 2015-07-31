@@ -31,12 +31,12 @@
     <rect>
      <x>90</x>
      <y>40</y>
-     <width>191</width>
-     <height>21</height>
+     <width>211</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-family:'宋体'; font-size:18pt; font-weight:600; color:#000000;&quot;&gt;基于&lt;/span&gt;&lt;span style=&quot; font-family:'Calibri Light'; font-size:18pt; font-weight:600; color:#000000;&quot;&gt;QT&lt;/span&gt;&lt;span style=&quot; font-family:'宋体'; font-size:18pt; font-weight:600; color:#000000;&quot;&gt;的图可视化软件&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-family:'宋体'; font-size:14pt; font-weight:600; color:#000000;&quot;&gt;基于&lt;/span&gt;&lt;span style=&quot; font-family:'Calibri Light'; font-size:14pt; font-weight:600; color:#000000;&quot;&gt;QT&lt;/span&gt;&lt;span style=&quot; font-family:'宋体'; font-size:14pt; font-weight:600; color:#000000;&quot;&gt;的图可视化软件&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">
