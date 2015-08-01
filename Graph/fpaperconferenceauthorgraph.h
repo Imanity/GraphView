@@ -25,6 +25,8 @@ public:
     virtual FNode getNode(int nodeId);
     virtual void resetStatus();
     virtual void moveNodes(int direction);
+    virtual void getFmmmLayout();
+    virtual void changeToFmmmLayout();
 };
 
 #endif // FPAPERCONFERENCEAUTHORGRAPH_H

@@ -209,6 +209,7 @@ void FPaperConferenceAuthorGraph::readFile()
     }
     inFile2.close();
     resetStatus();
+    getFmmmLayout();
 }
 
 node FPaperConferenceAuthorGraph::getOgdfId(int nodeId)
@@ -313,4 +314,47 @@ void FPaperConferenceAuthorGraph::moveNodes(int direction)
         }
     }
     resetStatus();
+}
+
+void FPaperConferenceAuthorGraph::getFmmmLayout()
+{
+    FMMMLayout fmmm;
+    fmmm.call(GA);
+    DRect rect = GA.boundingBox();
+    double width = rect.width();
+    double height = rect.height();
+    for(int i = 0; i < paperNodes.size(); ++i)
+    {
+        paperNodes[i].fmmmViewX = GA.x(paperNodes[i].ogdfId) / width * 500 - 20;
+        paperNodes[i].fmmmViewY = GA.y(paperNodes[i].ogdfId) / height * 500 - 20;
+    }
+    for(int i = 0; i < authorNodes.size(); ++i)
+    {
+        authorNodes[i].fmmmViewX = GA.x(authorNodes[i].ogdfId) / width * 500 - 20;
+        authorNodes[i].fmmmViewY = GA.y(authorNodes[i].ogdfId) / height * 500 - 20;
+    }
+    for(int i = 0; i < conferenceNodes.size(); ++i)
+    {
+        conferenceNodes[i].fmmmViewX = GA.x(conferenceNodes[i].ogdfId) / width * 500 - 20;
+        conferenceNodes[i].fmmmViewY = GA.y(conferenceNodes[i].ogdfId) / height * 500 - 20;
+    }
+}
+
+void FPaperConferenceAuthorGraph::changeToFmmmLayout()
+{
+    for(int i = 0; i < paperNodes.size(); ++i)
+    {
+        paperNodes[i].nowViewX = paperNodes[i].fmmmViewX;
+        paperNodes[i].nowViewY = paperNodes[i].fmmmViewY;
+    }
+    for(int i = 0; i < authorNodes.size(); ++i)
+    {
+        authorNodes[i].nowViewX = authorNodes[i].fmmmViewX;
+        authorNodes[i].nowViewY = authorNodes[i].fmmmViewY;
+    }
+    for(int i = 0; i < conferenceNodes.size(); ++i)
+    {
+        conferenceNodes[i].nowViewX = conferenceNodes[i].fmmmViewX;
+        conferenceNodes[i].nowViewY = conferenceNodes[i].fmmmViewY;
+    }
 }

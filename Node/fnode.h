@@ -13,6 +13,7 @@ public:
     int viewLayoutX, viewLayoutY, viewLayoutZ;          //预置界面显示位置
     int nowViewX, nowViewY;                             //当前显示位置
     int oldViewX, oldViewY;                             //旧显示位置
+    int fmmmViewX, fmmmViewY;                           //energy-based布局
     node ogdfId;                                        //ogdf编号
 public:
     FNode();
