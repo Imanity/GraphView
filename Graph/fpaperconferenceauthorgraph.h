@@ -21,8 +21,10 @@ public:
 public:
     FPaperConferenceAuthorGraph();
     virtual void readFile();
-    node getOgdfId(int nodeId);
-    FNode getNode(int nodeId);
+    virtual node getOgdfId(int nodeId);
+    virtual FNode getNode(int nodeId);
+    virtual void resetStatus();
+    virtual void moveNodes(int direction);
 };
 
 #endif // FPAPERCONFERENCEAUTHORGRAPH_H

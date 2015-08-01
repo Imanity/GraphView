@@ -10,7 +10,9 @@ public:
     int nodeId;                                         //点编号
     int viewColorR, viewColorG, viewColorB, viewColorA; //界面显示颜色
     char *viewLabel;                                    //界面显示标签
-    int viewLayoutX, viewLayoutY, viewLayoutZ;          //界面显示位置
+    int viewLayoutX, viewLayoutY, viewLayoutZ;          //预置界面显示位置
+    int nowViewX, nowViewY;                             //当前显示位置
+    int oldViewX, oldViewY;                             //旧显示位置
     node ogdfId;                                        //ogdf编号
 public:
     FNode();

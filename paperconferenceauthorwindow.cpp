@@ -1,4 +1,5 @@
 #include <QPainter>
+#include <QKeyEvent>
 #include "paperconferenceauthorwindow.h"
 #include "ui_paperconferenceauthorwindow.h"
 
@@ -23,24 +24,50 @@ void PaperConferenceAuthorWindow::paintEvent(QPaintEvent *ev)
     p.setBrush(Qt::yellow);
     for(int i = 0; i < graph.paperNodes.size(); ++i)
     {
-        p.drawEllipse(graph.paperNodes[i].viewLayoutX - 4, graph.paperNodes[i].viewLayoutY - 4, 8, 8);
+        p.drawEllipse(graph.paperNodes[i].nowViewX - 4, graph.paperNodes[i].nowViewY - 4, 8, 8);
     }
     p.setBrush(Qt::red);
     for(int i = 0; i < graph.authorNodes.size(); ++i)
     {
-        p.drawEllipse(graph.authorNodes[i].viewLayoutX - 4, graph.authorNodes[i].viewLayoutY - 4, 8, 8);
+        p.drawEllipse(graph.authorNodes[i].nowViewX - 4, graph.authorNodes[i].nowViewY - 4, 8, 8);
     }
     p.setBrush(Qt::green);
     for(int i = 0; i < graph.conferenceNodes.size(); ++i)
     {
-        p.drawEllipse(graph.conferenceNodes[i].viewLayoutX - 4, graph.conferenceNodes[i].viewLayoutY - 4, 8, 8);
+        p.drawEllipse(graph.conferenceNodes[i].nowViewX - 4, graph.conferenceNodes[i].nowViewY - 4, 8, 8);
     }
     for(int i = 0; i < graph.directedEdges.size(); ++i)
     {
-        line1_X = graph.getNode(graph.directedEdges[i].node1).viewLayoutX;
-        line1_Y = graph.getNode(graph.directedEdges[i].node1).viewLayoutY;
-        line2_X = graph.getNode(graph.directedEdges[i].node2).viewLayoutX;
-        line2_Y = graph.getNode(graph.directedEdges[i].node2).viewLayoutY;
+        line1_X = graph.getNode(graph.directedEdges[i].node1).nowViewX;
+        line1_Y = graph.getNode(graph.directedEdges[i].node1).nowViewY;
+        line2_X = graph.getNode(graph.directedEdges[i].node2).nowViewX;
+        line2_Y = graph.getNode(graph.directedEdges[i].node2).nowViewY;
         p.drawLine(line1_X, line1_Y, line2_X, line2_Y);
     }
+}
+
+bool PaperConferenceAuthorWindow::event(QEvent *event)
+{
+    if(event->type() == QEvent::KeyPress)
+    {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if(keyEvent->key() == Qt::Key_Up)
+        {
+            graph.moveNodes(0);
+        }
+        if(keyEvent->key() == Qt::Key_Down)
+        {
+            graph.moveNodes(1);
+        }
+        if(keyEvent->key() == Qt::Key_Left)
+        {
+            graph.moveNodes(2);
+        }
+        if(keyEvent->key() == Qt::Key_Right)
+        {
+            graph.moveNodes(3);
+        }
+    }
+    update();
+    return QWidget::event(event);
 }

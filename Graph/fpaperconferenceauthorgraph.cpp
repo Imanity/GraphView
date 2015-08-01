@@ -93,6 +93,8 @@ void FPaperConferenceAuthorGraph::readFile()
             viewLabelZ = lineStr.section(QRegExp("[(,)]"), 3, 3).toDouble();
             newNode.SetLabel(viewLabel, viewLabelX, viewLabelY, viewLabelZ);
             newNode.ogdfId = graphView.newNode();
+            newNode.nowViewX = newNode.viewLayoutX;
+            newNode.nowViewY = newNode.viewLayoutY;
             GA.x(newNode.ogdfId) = viewLabelX;
             GA.y(newNode.ogdfId) = viewLabelY;
             paperNodes.push_back(newNode);
@@ -132,6 +134,8 @@ void FPaperConferenceAuthorGraph::readFile()
             viewLabelZ = lineStr.section(QRegExp("[(,)]"), 3, 3).toDouble();
             newNode.SetLabel(viewLabel, viewLabelX, viewLabelY, viewLabelZ);
             newNode.ogdfId = graphView.newNode();
+            newNode.nowViewX = newNode.viewLayoutX;
+            newNode.nowViewY = newNode.viewLayoutY;
             GA.x(newNode.ogdfId) = viewLabelX;
             GA.y(newNode.ogdfId) = viewLabelY;
             conferenceNodes.push_back(newNode);
@@ -171,6 +175,8 @@ void FPaperConferenceAuthorGraph::readFile()
             viewLabelZ = lineStr.section(QRegExp("[(,)]"), 3, 3).toDouble();
             newNode.SetLabel(viewLabel, viewLabelX, viewLabelY, viewLabelZ);
             newNode.ogdfId = graphView.newNode();
+            newNode.nowViewX = newNode.viewLayoutX;
+            newNode.nowViewY = newNode.viewLayoutY;
             GA.x(newNode.ogdfId) = viewLabelX;
             GA.y(newNode.ogdfId) = viewLabelY;
             authorNodes.push_back(newNode);
@@ -202,6 +208,7 @@ void FPaperConferenceAuthorGraph::readFile()
         directedEdges.push_back(newEdge);
     }
     inFile2.close();
+    resetStatus();
 }
 
 node FPaperConferenceAuthorGraph::getOgdfId(int nodeId)
@@ -252,4 +259,58 @@ FNode FPaperConferenceAuthorGraph::getNode(int nodeId)
             return conferenceNodes[i];
         }
     }
+}
+
+void FPaperConferenceAuthorGraph::resetStatus()
+{
+    for(int i = 0; i < paperNodes.size(); ++i)
+    {
+        paperNodes[i].oldViewX = paperNodes[i].nowViewX;
+        paperNodes[i].oldViewY = paperNodes[i].nowViewY;
+    }
+    for(int i = 0; i < authorNodes.size(); ++i)
+    {
+        authorNodes[i].oldViewX = authorNodes[i].nowViewX;
+        authorNodes[i].oldViewY = authorNodes[i].nowViewY;
+    }
+    for(int i = 0; i < conferenceNodes.size(); ++i)
+    {
+        conferenceNodes[i].oldViewX = conferenceNodes[i].nowViewX;
+        conferenceNodes[i].oldViewY = conferenceNodes[i].nowViewY;
+    }
+}
+
+void FPaperConferenceAuthorGraph::moveNodes(int direction)
+{
+    //direction:0 上 1 下 2 左 3 右
+    int distance = ((double)(direction % 2) - 0.5) * 8;
+    if(direction == 0 || direction == 1)
+    {
+        for(int i = 0; i < paperNodes.size(); ++i)
+        {
+            paperNodes[i].nowViewY += distance;
+        }
+        for(int i = 0; i < authorNodes.size(); ++i)
+        {
+            authorNodes[i].nowViewY += distance;
+        }
+        for(int i = 0; i < conferenceNodes.size(); ++i)
+        {
+            conferenceNodes[i].nowViewY += distance;
+        }
+    } else {
+        for(int i = 0; i < paperNodes.size(); ++i)
+        {
+            paperNodes[i].nowViewX += distance;
+        }
+        for(int i = 0; i < authorNodes.size(); ++i)
+        {
+            authorNodes[i].nowViewX += distance;
+        }
+        for(int i = 0; i < conferenceNodes.size(); ++i)
+        {
+            conferenceNodes[i].nowViewX += distance;
+        }
+    }
+    resetStatus();
 }

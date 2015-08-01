@@ -20,6 +20,7 @@ public:
 private:
     Ui::PaperConferenceAuthorWindow *ui;
     void paintEvent(QPaintEvent *ev);
+    bool event(QEvent *event);
 };
 
 #endif // PAPERCONFERENCEAUTHORWINDOW_H
