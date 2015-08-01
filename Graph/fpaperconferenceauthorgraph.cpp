@@ -1,5 +1,6 @@
 #include <QFile>
 #include <iostream>
+#include <ctime>
 #include "fpaperconferenceauthorgraph.h"
 
 #ifdef Q_OS_WIN
@@ -14,6 +15,7 @@ using namespace std;
 
 FPaperConferenceAuthorGraph::FPaperConferenceAuthorGraph()
 {
+    srand((unsigned)time(NULL));
     GA = GraphAttributes(graphView);
 }
 
@@ -356,5 +358,24 @@ void FPaperConferenceAuthorGraph::changeToFmmmLayout()
     {
         conferenceNodes[i].nowViewX = conferenceNodes[i].fmmmViewX;
         conferenceNodes[i].nowViewY = conferenceNodes[i].fmmmViewY;
+    }
+}
+
+void FPaperConferenceAuthorGraph::setRandom()
+{
+    for(int i = 0; i < paperNodes.size(); ++i)
+    {
+        paperNodes[i].randomViewX = (double)rand() / (double)RAND_MAX * 500;
+        paperNodes[i].randomViewY = (double)rand() / (double)RAND_MAX * 500;
+    }
+    for(int i = 0; i < authorNodes.size(); ++i)
+    {
+        authorNodes[i].randomViewX = (double)rand() / (double)RAND_MAX * 500;
+        authorNodes[i].randomViewY = (double)rand() / (double)RAND_MAX * 500;
+    }
+    for(int i = 0; i < conferenceNodes.size(); ++i)
+    {
+        conferenceNodes[i].randomViewX = (double)rand() / (double)RAND_MAX * 500;
+        conferenceNodes[i].randomViewY = (double)rand() / (double)RAND_MAX * 500;
     }
 }

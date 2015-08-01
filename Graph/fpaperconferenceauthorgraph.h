@@ -27,6 +27,7 @@ public:
     virtual void moveNodes(int direction);
     virtual void getFmmmLayout();
     virtual void changeToFmmmLayout();
+    virtual void setRandom();
 };
 
 #endif // FPAPERCONFERENCEAUTHORGRAPH_H

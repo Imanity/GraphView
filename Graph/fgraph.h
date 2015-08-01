@@ -18,6 +18,7 @@ public:
     virtual void moveNodes(int direction) = 0;
     virtual void getFmmmLayout() = 0;
     virtual void changeToFmmmLayout() = 0;
+    virtual void setRandom() = 0;
 };
 
 #endif // FGRAPH_H

@@ -29,7 +29,7 @@
     <property name="title">
      <string>选择布局</string>
     </property>
-    <widget class="QRadioButton" name="radioButton">
+    <widget class="QRadioButton" name="initLayoutButton">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -48,7 +48,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QRadioButton" name="radioButton_2">
+    <widget class="QRadioButton" name="randomLayoutButton">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -64,7 +64,7 @@
       <string>随机布局</string>
      </property>
     </widget>
-    <widget class="QRadioButton" name="radioButton_3">
+    <widget class="QRadioButton" name="FmmmLayoutButton">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -78,6 +78,32 @@
      </property>
      <property name="text">
       <string>Energy-based layout</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="circleLayoutButton">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>80</y>
+       <width>101</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>圆形均匀布局</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="formLayoutButton">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>100</y>
+       <width>89</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>平铺布局</string>
      </property>
     </widget>
    </widget>

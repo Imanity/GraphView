@@ -13,7 +13,10 @@ public:
     int viewLayoutX, viewLayoutY, viewLayoutZ;          //预置界面显示位置
     int nowViewX, nowViewY;                             //当前显示位置
     int oldViewX, oldViewY;                             //旧显示位置
+    int randomViewX, randomViewY;                       //随机布局
     int fmmmViewX, fmmmViewY;                           //energy-based布局
+    int circleViewX, circleViewY;                       //圆形均匀布局
+    int formViewX, formViewY;                           //平铺布局
     node ogdfId;                                        //ogdf编号
 public:
     FNode();
