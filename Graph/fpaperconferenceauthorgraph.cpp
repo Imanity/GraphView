@@ -290,41 +290,6 @@ void FPaperConferenceAuthorGraph::resetStatus()
     }
 }
 
-void FPaperConferenceAuthorGraph::moveNodes(int direction)
-{
-    //direction:0 上 1 下 2 左 3 右
-    int distance = ((double)(direction % 2) - 0.5) * 8;
-    if(direction == 0 || direction == 1)
-    {
-        for(int i = 0; i < paperNodes.size(); ++i)
-        {
-            paperNodes[i].nowViewY += distance;
-        }
-        for(int i = 0; i < authorNodes.size(); ++i)
-        {
-            authorNodes[i].nowViewY += distance;
-        }
-        for(int i = 0; i < conferenceNodes.size(); ++i)
-        {
-            conferenceNodes[i].nowViewY += distance;
-        }
-    } else {
-        for(int i = 0; i < paperNodes.size(); ++i)
-        {
-            paperNodes[i].nowViewX += distance;
-        }
-        for(int i = 0; i < authorNodes.size(); ++i)
-        {
-            authorNodes[i].nowViewX += distance;
-        }
-        for(int i = 0; i < conferenceNodes.size(); ++i)
-        {
-            conferenceNodes[i].nowViewX += distance;
-        }
-    }
-    resetStatus();
-}
-
 void FPaperConferenceAuthorGraph::getFmmmLayout()
 {
     FMMMLayout fmmm;

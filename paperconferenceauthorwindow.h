@@ -18,6 +18,10 @@ private:
     QTimer* timer;
     int nowLayout;
     double changeSpeed;
+    double zoomRate;
+    int centerX, centerY;
+    int shiftX, shiftY;
+    int mouseX, mouseY;
 
 public:
     FPaperConferenceAuthorGraph graph;
@@ -28,6 +32,7 @@ private:
     Ui::PaperConferenceAuthorWindow *ui;
     void paintEvent(QPaintEvent *ev);
     bool event(QEvent *event);
+    void wheelEvent(QWheelEvent* event);
 
 public slots:
     void onInitLayoutClicked();

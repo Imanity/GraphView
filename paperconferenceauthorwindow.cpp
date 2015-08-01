@@ -1,5 +1,6 @@
 #include <QPainter>
 #include <QKeyEvent>
+#include <cmath>
 #include "paperconferenceauthorwindow.h"
 #include "ui_paperconferenceauthorwindow.h"
 
@@ -10,6 +11,13 @@ PaperConferenceAuthorWindow::PaperConferenceAuthorWindow(QWidget *parent) :
     nowLayout = 1;
     timepast = 0;
     changeSpeed = 12.0;
+    zoomRate = 1.0;
+    centerX = 250;
+    centerY = 250;
+    shiftX = 0;
+    shiftY = 0;
+    mouseX = QCursor::pos().x();
+    mouseY = QCursor::pos().y();
     timer = new QTimer(this);
     ui->setupUi(this);
     graph.readFile();
@@ -34,25 +42,32 @@ void PaperConferenceAuthorWindow::paintEvent(QPaintEvent *ev)
     p.setBrush(Qt::yellow);
     for(int i = 0; i < graph.directedEdges.size(); ++i)
     {
-        line1_X = graph.getNode(graph.directedEdges[i].node1).nowViewX;
-        line1_Y = graph.getNode(graph.directedEdges[i].node1).nowViewY;
-        line2_X = graph.getNode(graph.directedEdges[i].node2).nowViewX;
-        line2_Y = graph.getNode(graph.directedEdges[i].node2).nowViewY;
+        line1_X = (graph.getNode(graph.directedEdges[i].node1).nowViewX - centerX) * zoomRate + centerX + shiftX;
+        line1_Y = (graph.getNode(graph.directedEdges[i].node1).nowViewY - centerY) * zoomRate + centerY + shiftY;
+        line2_X = (graph.getNode(graph.directedEdges[i].node2).nowViewX - centerX) * zoomRate + centerX + shiftX;
+        line2_Y = (graph.getNode(graph.directedEdges[i].node2).nowViewY - centerY) * zoomRate + centerY + shiftY;
         p.drawLine(line1_X, line1_Y, line2_X, line2_Y);
     }
+    int tmpX, tmpY;
     for(int i = 0; i < graph.paperNodes.size(); ++i)
     {
-        p.drawEllipse(graph.paperNodes[i].nowViewX - 4, graph.paperNodes[i].nowViewY - 4, 8, 8);
+        tmpX = (graph.paperNodes[i].nowViewX - centerX) * zoomRate + centerX + shiftX;
+        tmpY = (graph.paperNodes[i].nowViewY - centerY) * zoomRate + centerY + shiftY;
+        p.drawEllipse(tmpX - 4, tmpY - 4, 8, 8);
     }
     p.setBrush(Qt::red);
     for(int i = 0; i < graph.authorNodes.size(); ++i)
     {
-        p.drawEllipse(graph.authorNodes[i].nowViewX - 4, graph.authorNodes[i].nowViewY - 4, 8, 8);
+        tmpX = (graph.authorNodes[i].nowViewX - centerX) * zoomRate + centerX + shiftX;
+        tmpY = (graph.authorNodes[i].nowViewY - centerY) * zoomRate + centerY + shiftY;
+        p.drawEllipse(tmpX - 4, tmpY - 4, 8, 8);
     }
     p.setBrush(Qt::green);
     for(int i = 0; i < graph.conferenceNodes.size(); ++i)
     {
-        p.drawEllipse(graph.conferenceNodes[i].nowViewX - 4, graph.conferenceNodes[i].nowViewY - 4, 8, 8);
+        tmpX = (graph.conferenceNodes[i].nowViewX - centerX) * zoomRate + centerX + shiftX;
+        tmpY = (graph.conferenceNodes[i].nowViewY - centerY) * zoomRate + centerY + shiftY;
+        p.drawEllipse(tmpX - 4, tmpY - 4, 8, 8);
     }
 }
 
@@ -63,23 +78,52 @@ bool PaperConferenceAuthorWindow::event(QEvent *event)
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
         if(keyEvent->key() == Qt::Key_Up)
         {
-            graph.moveNodes(0);
+            shiftY -= 8;
         }
         if(keyEvent->key() == Qt::Key_Down)
         {
-            graph.moveNodes(1);
+            shiftY += 8;
         }
         if(keyEvent->key() == Qt::Key_Left)
         {
-            graph.moveNodes(2);
+            shiftX -= 8;
         }
         if(keyEvent->key() == Qt::Key_Right)
         {
-            graph.moveNodes(3);
+            shiftX += 8;
         }
+        if(keyEvent->key() == Qt::Key_Plus)
+        {
+            zoomRate *= 1.1;
+        }
+        if(keyEvent->key() == Qt::Key_Minus)
+        {
+            zoomRate *= 0.9;
+        }
+    } else if(event->type() == QEvent::MouseMove)
+    {
+        mouseX = QCursor::pos().x();
+        mouseY = QCursor::pos().y();
     }
     update();
     return QWidget::event(event);
+}
+
+void PaperConferenceAuthorWindow::wheelEvent(QWheelEvent *event)
+{
+    centerX = mouseX;
+    centerY = mouseY;
+    /*double numDegrees = event->delta() / 8.0;
+    double numSteps = numDegrees / 15.0;
+    double factor = pow(1.05, numSteps);
+    zoomRate *= factor;*/
+    if(event->delta() > 0)
+    {
+        zoomRate *= 1.1;
+    } else {
+        zoomRate *= 0.9;
+    }
+    event->accept();
 }
 
 void PaperConferenceAuthorWindow::timerDraw()

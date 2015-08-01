@@ -17,7 +17,6 @@ public:
     virtual node getOgdfId(int nodeId) = 0;
     virtual FNode getNode(int nodeId) = 0;
     virtual void resetStatus() = 0;
-    virtual void moveNodes(int direction) = 0;
     virtual void getFmmmLayout() = 0;
     virtual void changeToFmmmLayout() = 0;
     virtual void setRandom() = 0;
