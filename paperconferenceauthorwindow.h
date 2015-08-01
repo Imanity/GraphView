@@ -33,6 +33,8 @@ public slots:
     void onInitLayoutClicked();
     void onRandomLayoutClicked();
     void onFmmmLayoutClicked();
+    void onCircleLayoutClicked();
+    void onFormLayoutClicked();
     void timerDraw();
 };
 

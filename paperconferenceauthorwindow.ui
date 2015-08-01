@@ -39,7 +39,7 @@
       </rect>
      </property>
      <property name="focusPolicy">
-      <enum>Qt::ClickFocus</enum>
+      <enum>Qt::NoFocus</enum>
      </property>
      <property name="text">
       <string>初始布局</string>
@@ -58,7 +58,7 @@
       </rect>
      </property>
      <property name="focusPolicy">
-      <enum>Qt::ClickFocus</enum>
+      <enum>Qt::NoFocus</enum>
      </property>
      <property name="text">
       <string>随机布局</string>
@@ -74,7 +74,7 @@
       </rect>
      </property>
      <property name="focusPolicy">
-      <enum>Qt::ClickFocus</enum>
+      <enum>Qt::NoFocus</enum>
      </property>
      <property name="text">
       <string>Energy-based layout</string>
@@ -89,6 +89,9 @@
        <height>16</height>
       </rect>
      </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
      <property name="text">
       <string>圆形均匀布局</string>
      </property>
@@ -101,6 +104,9 @@
        <width>89</width>
        <height>16</height>
       </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
      </property>
      <property name="text">
       <string>平铺布局</string>

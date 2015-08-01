@@ -1,6 +1,7 @@
 #include <QFile>
 #include <iostream>
 #include <ctime>
+#include <cmath>
 #include "fpaperconferenceauthorgraph.h"
 
 #ifdef Q_OS_WIN
@@ -15,6 +16,7 @@ using namespace std;
 
 FPaperConferenceAuthorGraph::FPaperConferenceAuthorGraph()
 {
+    nodeNum = 0;
     srand((unsigned)time(NULL));
     GA = GraphAttributes(graphView);
 }
@@ -100,6 +102,7 @@ void FPaperConferenceAuthorGraph::readFile()
             GA.x(newNode.ogdfId) = viewLabelX;
             GA.y(newNode.ogdfId) = viewLabelY;
             paperNodes.push_back(newNode);
+            nodeNum++;
         } else if(words[1] == "conference\n") //type为conference
         {
             //获取year
@@ -141,6 +144,7 @@ void FPaperConferenceAuthorGraph::readFile()
             GA.x(newNode.ogdfId) = viewLabelX;
             GA.y(newNode.ogdfId) = viewLabelY;
             conferenceNodes.push_back(newNode);
+            nodeNum++;
         } else if(words[1] == "author\n") //author
         {
             //获取year
@@ -182,6 +186,7 @@ void FPaperConferenceAuthorGraph::readFile()
             GA.x(newNode.ogdfId) = viewLabelX;
             GA.y(newNode.ogdfId) = viewLabelY;
             authorNodes.push_back(newNode);
+            nodeNum++;
         }
         lineStr = inFile.readLine(); //读取一空行
     }
@@ -212,6 +217,8 @@ void FPaperConferenceAuthorGraph::readFile()
     inFile2.close();
     resetStatus();
     getFmmmLayout();
+    setCircle();
+    setForm();
 }
 
 node FPaperConferenceAuthorGraph::getOgdfId(int nodeId)
@@ -377,5 +384,70 @@ void FPaperConferenceAuthorGraph::setRandom()
     {
         conferenceNodes[i].randomViewX = (double)rand() / (double)RAND_MAX * 500;
         conferenceNodes[i].randomViewY = (double)rand() / (double)RAND_MAX * 500;
+    }
+}
+
+void FPaperConferenceAuthorGraph::setCircle()
+{
+    double step = 2 * 3.1415926536 / nodeNum;
+    double currentAngle = 0;
+    for(int i = 0; i < paperNodes.size(); ++i)
+    {
+        paperNodes[i].circleViewX = 250 + 200 * cos(currentAngle);
+        paperNodes[i].circleViewY = 250 + 200 * sin(currentAngle);
+        currentAngle += step;
+    }
+    for(int i = 0; i < authorNodes.size(); ++i)
+    {
+        authorNodes[i].circleViewX = 250 + 200 * cos(currentAngle);
+        authorNodes[i].circleViewY = 250 + 200 * sin(currentAngle);
+        currentAngle += step;
+    }
+    for(int i = 0; i < conferenceNodes.size(); ++i)
+    {
+        conferenceNodes[i].circleViewX = 250 + 200 * cos(currentAngle);
+        conferenceNodes[i].circleViewY = 250 + 200 * sin(currentAngle);
+        currentAngle += step;
+    }
+}
+
+void FPaperConferenceAuthorGraph::setForm()
+{
+    int columnNum = (int)sqrt(nodeNum);
+    double step = 500.0 / (columnNum + 1);
+    double currentX = 0, currentY = 0;
+    currentY += step;
+    for(int i = 0; i < paperNodes.size(); ++i)
+    {
+        currentX += step;
+        if(currentX >= 500)
+        {
+            currentX = step;
+            currentY += step;
+        }
+        paperNodes[i].formViewX = currentX;
+        paperNodes[i].formViewY = currentY;
+    }
+    for(int i = 0; i < authorNodes.size(); ++i)
+    {
+        currentX += step;
+        if(currentX >= 500)
+        {
+            currentX = step;
+            currentY += step;
+        }
+        authorNodes[i].formViewX = currentX;
+        authorNodes[i].formViewY = currentY;
+    }
+    for(int i = 0; i < conferenceNodes.size(); ++i)
+    {
+        currentX += step;
+        if(currentX >= 500)
+        {
+            currentX = step;
+            currentY += step;
+        }
+        conferenceNodes[i].formViewX = currentX;
+        conferenceNodes[i].formViewY = currentY;
     }
 }

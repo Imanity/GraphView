@@ -17,6 +17,8 @@ PaperConferenceAuthorWindow::PaperConferenceAuthorWindow(QWidget *parent) :
     connect(ui->initLayoutButton, SIGNAL(clicked()), this, SLOT(onInitLayoutClicked()));
     connect(ui->randomLayoutButton, SIGNAL(clicked()), this, SLOT(onRandomLayoutClicked()));
     connect(ui->FmmmLayoutButton, SIGNAL(clicked()), this, SLOT(onFmmmLayoutClicked()));
+    connect(ui->circleLayoutButton, SIGNAL(clicked()), this, SLOT(onCircleLayoutClicked()));
+    connect(ui->formLayoutButton, SIGNAL(clicked()), this, SLOT(onFormLayoutClicked()));
 }
 
 PaperConferenceAuthorWindow::~PaperConferenceAuthorWindow()
@@ -136,6 +138,40 @@ void PaperConferenceAuthorWindow::timerDraw()
             graph.conferenceNodes[i].nowViewY = (graph.conferenceNodes[i].fmmmViewY - graph.conferenceNodes[i].oldViewY) / changeSpeed * timepast + graph.conferenceNodes[i].oldViewY;
         }
         break;
+    case 4:
+        for(int i = 0; i < graph.paperNodes.size(); ++i)
+        {
+            graph.paperNodes[i].nowViewX = (graph.paperNodes[i].circleViewX - graph.paperNodes[i].oldViewX) / changeSpeed * timepast + graph.paperNodes[i].oldViewX;
+            graph.paperNodes[i].nowViewY = (graph.paperNodes[i].circleViewY - graph.paperNodes[i].oldViewY) / changeSpeed * timepast + graph.paperNodes[i].oldViewY;
+        }
+        for(int i = 0; i < graph.authorNodes.size(); ++i)
+        {
+            graph.authorNodes[i].nowViewX = (graph.authorNodes[i].circleViewX - graph.authorNodes[i].oldViewX) / changeSpeed * timepast + graph.authorNodes[i].oldViewX;
+            graph.authorNodes[i].nowViewY = (graph.authorNodes[i].circleViewY - graph.authorNodes[i].oldViewY) / changeSpeed * timepast + graph.authorNodes[i].oldViewY;
+        }
+        for(int i = 0; i < graph.conferenceNodes.size(); ++i)
+        {
+            graph.conferenceNodes[i].nowViewX = (graph.conferenceNodes[i].circleViewX - graph.conferenceNodes[i].oldViewX) / changeSpeed * timepast + graph.conferenceNodes[i].oldViewX;
+            graph.conferenceNodes[i].nowViewY = (graph.conferenceNodes[i].circleViewY - graph.conferenceNodes[i].oldViewY) / changeSpeed * timepast + graph.conferenceNodes[i].oldViewY;
+        }
+        break;
+    case 5:
+        for(int i = 0; i < graph.paperNodes.size(); ++i)
+        {
+            graph.paperNodes[i].nowViewX = (graph.paperNodes[i].formViewX - graph.paperNodes[i].oldViewX) / changeSpeed * timepast + graph.paperNodes[i].oldViewX;
+            graph.paperNodes[i].nowViewY = (graph.paperNodes[i].formViewY - graph.paperNodes[i].oldViewY) / changeSpeed * timepast + graph.paperNodes[i].oldViewY;
+        }
+        for(int i = 0; i < graph.authorNodes.size(); ++i)
+        {
+            graph.authorNodes[i].nowViewX = (graph.authorNodes[i].formViewX - graph.authorNodes[i].oldViewX) / changeSpeed * timepast + graph.authorNodes[i].oldViewX;
+            graph.authorNodes[i].nowViewY = (graph.authorNodes[i].formViewY - graph.authorNodes[i].oldViewY) / changeSpeed * timepast + graph.authorNodes[i].oldViewY;
+        }
+        for(int i = 0; i < graph.conferenceNodes.size(); ++i)
+        {
+            graph.conferenceNodes[i].nowViewX = (graph.conferenceNodes[i].formViewX - graph.conferenceNodes[i].oldViewX) / changeSpeed * timepast + graph.conferenceNodes[i].oldViewX;
+            graph.conferenceNodes[i].nowViewY = (graph.conferenceNodes[i].formViewY - graph.conferenceNodes[i].oldViewY) / changeSpeed * timepast + graph.conferenceNodes[i].oldViewY;
+        }
+        break;
     default:
         break;
     }
@@ -164,5 +200,17 @@ void PaperConferenceAuthorWindow::onRandomLayoutClicked()
 void PaperConferenceAuthorWindow::onFmmmLayoutClicked()
 {
     nowLayout = 3;
+    timer->start(40);
+}
+
+void PaperConferenceAuthorWindow::onCircleLayoutClicked()
+{
+    nowLayout = 4;
+    timer->start(40);
+}
+
+void PaperConferenceAuthorWindow::onFormLayoutClicked()
+{
+    nowLayout = 5;
     timer->start(40);
 }

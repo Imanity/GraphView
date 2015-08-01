@@ -28,6 +28,8 @@ public:
     virtual void getFmmmLayout();
     virtual void changeToFmmmLayout();
     virtual void setRandom();
+    virtual void setCircle();
+    virtual void setForm();
 };
 
 #endif // FPAPERCONFERENCEAUTHORGRAPH_H
