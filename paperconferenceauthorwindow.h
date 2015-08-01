@@ -19,9 +19,9 @@ private:
     int nowLayout;
     double changeSpeed;
     double zoomRate;
-    int centerX, centerY;
-    int shiftX, shiftY;
-    int mouseX, mouseY;
+    double centerX, centerY;
+    double shiftX, shiftY;
+    double mouseX, mouseY;
 
 public:
     FPaperConferenceAuthorGraph graph;
@@ -32,6 +32,7 @@ private:
     Ui::PaperConferenceAuthorWindow *ui;
     void paintEvent(QPaintEvent *ev);
     bool event(QEvent *event);
+    void mouseMoveEvent(QMouseEvent* event);
     void wheelEvent(QWheelEvent* event);
 
 public slots:

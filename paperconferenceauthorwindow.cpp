@@ -94,35 +94,31 @@ bool PaperConferenceAuthorWindow::event(QEvent *event)
         }
         if(keyEvent->key() == Qt::Key_Plus)
         {
-            zoomRate *= 1.1;
+            zoomRate *= 1.11111111111;
         }
         if(keyEvent->key() == Qt::Key_Minus)
         {
             zoomRate *= 0.9;
         }
-    } else if(event->type() == QEvent::MouseMove)
-    {
-        mouseX = QCursor::pos().x();
-        mouseY = QCursor::pos().y();
     }
     update();
     return QWidget::event(event);
 }
 
+void PaperConferenceAuthorWindow::mouseMoveEvent(QMouseEvent* event)
+{
+    mouseX = event->pos().x();
+    mouseY = event->pos().y();
+}
+
 void PaperConferenceAuthorWindow::wheelEvent(QWheelEvent *event)
 {
-    centerX = mouseX;
-    centerY = mouseY;
-    /*double numDegrees = event->delta() / 8.0;
+    double numDegrees = event->delta() / 8.0;
     double numSteps = numDegrees / 15.0;
     double factor = pow(1.05, numSteps);
-    zoomRate *= factor;*/
-    if(event->delta() > 0)
-    {
-        zoomRate *= 1.1;
-    } else {
-        zoomRate *= 0.9;
-    }
+    zoomRate *= factor;
+    shiftX += (1 - factor) * (mouseX - centerX - shiftX);
+    shiftY += (1 - factor) * (mouseY - centerY - shiftY);
     event->accept();
 }
 
