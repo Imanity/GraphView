@@ -1,6 +1,7 @@
 #include "loaddialog.h"
 #include "ui_loaddialog.h"
 #include "paperconferenceauthorwindow.h"
+#include "topicwindow.h"
 #include "aboutdialog.h"
 
 LoadDialog::LoadDialog(QWidget *parent) :
@@ -9,6 +10,7 @@ LoadDialog::LoadDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->PCAGraphButton, SIGNAL(clicked()), this, SLOT(onPCAGraphButtonClicked()));
+    connect(ui->TGraphButton, SIGNAL(clicked()), this, SLOT(onTGraphButtonClicked()));
     connect(ui->aboutButton, SIGNAL(clicked()), this, SLOT(onAboutButtonClicked()));
 }
 
@@ -23,8 +25,14 @@ void LoadDialog::onPCAGraphButtonClicked()
     newWindow->show();
 }
 
+void LoadDialog::onTGraphButtonClicked()
+{
+    TopicWindow *newWindow = new TopicWindow();
+    newWindow->show();
+}
+
 void LoadDialog::onAboutButtonClicked()
 {
     aboutDialog *newWindow = new aboutDialog();
-    newWindow->show();
+    newWindow->exec();
 }

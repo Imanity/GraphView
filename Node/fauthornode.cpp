@@ -5,7 +5,7 @@ FAuthorNode::FAuthorNode()
 
 }
 
-FAuthorNode::FAuthorNode(int nodeId, int year, char *id, char *authorName, char *authorNameShort)
+FAuthorNode::FAuthorNode(int nodeId, int year, QString id, QString authorName, QString authorNameShort)
 {
     this->nodeId = nodeId;
     this->year = year;

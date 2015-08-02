@@ -39,7 +39,7 @@ void FPaperConferenceAuthorGraph::readFile()
         cout << "Open failed." << endl;
     }
     int year, dateFrom, pageFrom;
-    char *authors, *id, *pageTitle, *pageTitleShort, *conferenceName, *conferenceNameShort, *authorName, *authorNameShort, *viewLabel;
+    QString id, authors, pageTitle, pageTitleShort, conferenceName, conferenceNameShort, authorName, authorNameShort, viewLabel;
     int viewColorR, viewColorG, viewColorB, viewColorA, viewLabelX, viewLabelY, viewLabelZ;
     while(!inFile.atEnd())
     {
@@ -58,7 +58,7 @@ void FPaperConferenceAuthorGraph::readFile()
             //获取authors
             lineStr = inFile.readLine();
             words = lineStr.split(": ");
-            authors = words[1].toLatin1().data();
+            authors = words[1].trimmed();
             //获取dateFrom
             lineStr = inFile.readLine();
             words = lineStr.split(": ");
@@ -66,7 +66,7 @@ void FPaperConferenceAuthorGraph::readFile()
             //获取id
             lineStr = inFile.readLine();
             words = lineStr.split(": ");
-            id = words[1].toLatin1().data();
+            id = words[1].trimmed();
             //获取pageFrom
             lineStr = inFile.readLine();
             words = lineStr.split(": ");
@@ -74,11 +74,11 @@ void FPaperConferenceAuthorGraph::readFile()
             //获取pageTitle
             lineStr = inFile.readLine();
             words = lineStr.split(": ");
-            pageTitle = words[1].toLatin1().data();
+            pageTitle = words[1].trimmed();
             //获取pageTitleShort
             lineStr = inFile.readLine();
             words = lineStr.split(": ");
-            pageTitleShort = words[1].toLatin1().data();
+            pageTitleShort = words[1].trimmed();
             FPaperNode newNode(nodeId, year, authors, dateFrom, id, pageFrom, pageTitle, pageTitleShort);
             //获取viewColor
             lineStr = inFile.readLine();
@@ -90,7 +90,7 @@ void FPaperConferenceAuthorGraph::readFile()
             //获取viewLabel
             lineStr = inFile.readLine();
             words = lineStr.split(": ");
-            viewLabel = words[1].toLatin1().data();
+            viewLabel = words[1].trimmed();
             lineStr = inFile.readLine();
             viewLabelX = lineStr.section(QRegExp("[(,)]"), 1, 1).toDouble() * 2 - 150;
             viewLabelY = lineStr.section(QRegExp("[(,)]"), 2, 2).toDouble() * 2 - 150;
@@ -112,15 +112,15 @@ void FPaperConferenceAuthorGraph::readFile()
             //获取id
             lineStr = inFile.readLine();
             words = lineStr.split(": ");
-            id = words[1].toLatin1().data();
+            id = words[1].trimmed();
             //获取conferenceName
             lineStr = inFile.readLine();
             words = lineStr.split(": ");
-            conferenceName = words[1].toLatin1().data();
+            conferenceName = words[1].trimmed();
             //获取conferenceNameShort
             lineStr = inFile.readLine();
             words = lineStr.split(": ");
-            conferenceNameShort = words[1].toLatin1().data();
+            conferenceNameShort = words[1].trimmed();
             FConferenceNode newNode(nodeId, year, id, conferenceName, conferenceNameShort);
             //获取viewColor
             lineStr = inFile.readLine();
@@ -132,7 +132,7 @@ void FPaperConferenceAuthorGraph::readFile()
             //获取viewLabel
             lineStr = inFile.readLine();
             words = lineStr.split(": ");
-            viewLabel = words[1].toLatin1().data();
+            viewLabel = words[1].trimmed();
             lineStr = inFile.readLine();
             viewLabelX = lineStr.section(QRegExp("[(,)]"), 1, 1).toDouble() * 2 - 150;
             viewLabelY = lineStr.section(QRegExp("[(,)]"), 2, 2).toDouble() * 2 - 150;
@@ -154,15 +154,15 @@ void FPaperConferenceAuthorGraph::readFile()
             //获取id
             lineStr = inFile.readLine();
             words = lineStr.split(": ");
-            id = words[1].toLatin1().data();
+            id = words[1].trimmed();
             //获取authorName
             lineStr = inFile.readLine();
             words = lineStr.split(": ");
-            authorName = words[1].toLatin1().data();
+            authorName = words[1].trimmed();
             //获取authorNameShort
             lineStr = inFile.readLine();
             words = lineStr.split(": ");
-            authorNameShort = words[1].toLatin1().data();
+            authorNameShort = words[1].trimmed();
             FAuthorNode newNode(nodeId, year, id, authorName, authorNameShort);
             //获取viewColor
             lineStr = inFile.readLine();
@@ -174,7 +174,7 @@ void FPaperConferenceAuthorGraph::readFile()
             //获取viewLabel
             lineStr = inFile.readLine();
             words = lineStr.split(": ");
-            viewLabel = words[1].toLatin1().data();
+            viewLabel = words[1].trimmed();
             lineStr = inFile.readLine();
             viewLabelX = lineStr.section(QRegExp("[(,)]"), 1, 1).toDouble() * 2 - 150;
             viewLabelY = lineStr.section(QRegExp("[(,)]"), 2, 2).toDouble() * 2 - 150;
@@ -414,5 +414,80 @@ void FPaperConferenceAuthorGraph::setForm()
         }
         conferenceNodes[i].formViewX = currentX;
         conferenceNodes[i].formViewY = currentY;
+    }
+}
+
+QString FPaperConferenceAuthorGraph::getType(int nodeId)
+{
+    for(int i = 0; i < paperNodes.size(); ++i)
+    {
+        if(paperNodes[i].nodeId == nodeId)
+        {
+            return "Paper";
+        }
+    }
+    for(int i = 0; i < authorNodes.size(); ++i)
+    {
+        if(authorNodes[i].nodeId == nodeId)
+        {
+            return "Author";
+        }
+    }
+    for(int i = 0; i < conferenceNodes.size(); ++i)
+    {
+        if(conferenceNodes[i].nodeId == nodeId)
+        {
+            return "Conference";
+        }
+    }
+}
+
+int FPaperConferenceAuthorGraph::getYear(int nodeId)
+{
+    for(int i = 0; i < paperNodes.size(); ++i)
+    {
+        if(paperNodes[i].nodeId == nodeId)
+        {
+            return paperNodes[i].year;
+        }
+    }
+    for(int i = 0; i < authorNodes.size(); ++i)
+    {
+        if(authorNodes[i].nodeId == nodeId)
+        {
+            return authorNodes[i].year;
+        }
+    }
+    for(int i = 0; i < conferenceNodes.size(); ++i)
+    {
+        if(conferenceNodes[i].nodeId == nodeId)
+        {
+            return conferenceNodes[i].year;
+        }
+    }
+}
+
+QString FPaperConferenceAuthorGraph::getId(int nodeId)
+{
+    for(int i = 0; i < paperNodes.size(); ++i)
+    {
+        if(paperNodes[i].nodeId == nodeId)
+        {
+            return paperNodes[i].id;
+        }
+    }
+    for(int i = 0; i < authorNodes.size(); ++i)
+    {
+        if(authorNodes[i].nodeId == nodeId)
+        {
+            return authorNodes[i].id;
+        }
+    }
+    for(int i = 0; i < conferenceNodes.size(); ++i)
+    {
+        if(conferenceNodes[i].nodeId == nodeId)
+        {
+            return conferenceNodes[i].id;
+        }
     }
 }

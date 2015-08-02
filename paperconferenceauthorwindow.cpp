@@ -130,11 +130,22 @@ void PaperConferenceAuthorWindow::mouseMoveEvent(QMouseEvent* event)
     if(highLightId != -1)
     {
         setCursor(Qt::PointingHandCursor);
+        //显示信息
+        ui->nodeId->setText("<b>nodeId: </b>" + QString::number(graph.getNode(highLightId).nodeId));
+        ui->type->setText("<b>type: </b>" + graph.getType(highLightId));
+        ui->year->setText("<b>year: </b>" + QString::number(graph.getYear(highLightId)));
+        ui->id->setText("<b>id: </b>" + graph.getId(highLightId));
     } else {
         setCursor(Qt::ArrowCursor);
+        //清空信息
+        ui->nodeId->setText("<b>nodeId: </b>");
+        ui->type->setText("<b>type: </b>");
+        ui->year->setText("<b>year: </b>");
+        ui->id->setText("<b>id: </b>");
     }
     if(isPressed)
     {
+        setCursor(Qt::SizeAllCursor);
         shiftX = tmpX + mouseX - pressX;
         shiftY = tmpY + mouseY - pressY;
     }

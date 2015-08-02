@@ -5,7 +5,7 @@ FConferenceNode::FConferenceNode()
 
 }
 
-FConferenceNode::FConferenceNode(int nodeId, int year, char *id, char *conferenceName, char *conferenceNameShort)
+FConferenceNode::FConferenceNode(int nodeId, int year, QString id, QString conferenceName, QString conferenceNameShort)
 {
     this->nodeId = nodeId;
     this->year = year;

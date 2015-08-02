@@ -2,6 +2,7 @@
 #define FPAPERCONFERENCEAUTHORGRAPH_H
 
 #include <vector>
+#include<QString>
 #include "fgraph.h"
 #include "Node/fpapernode.h"
 #include "Node/fconferencenode.h"
@@ -29,6 +30,9 @@ public:
     virtual void setRandom();
     virtual void setCircle();
     virtual void setForm();
+    QString getType(int nodeId);
+    int getYear(int nodeId);
+    QString getId(int nodeId);
 };
 
 #endif // FPAPERCONFERENCEAUTHORGRAPH_H

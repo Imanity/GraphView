@@ -8,10 +8,11 @@ using namespace std;
 class FTopicNode : public FNode
 {
 public:
-    char *topicWords;
-    vector<int> topicDocuments;
+    QString topicWords;
+    QString topicDocuments;
 public:
     FTopicNode();
+    FTopicNode(int nodeId, QString topicWords, QString topicDocuments);
 };
 
 #endif // FTOPICNODE_H

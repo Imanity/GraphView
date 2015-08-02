@@ -13,7 +13,7 @@ void FNode::setColor(int viewColorR, int viewColorG, int viewColorB, int viewCol
     this->viewColorA = viewColorA;
 }
 
-void FNode::SetLabel(char *viewLabel, int viewLayoutX, int viewLayoutY, int viewLayoutZ)
+void FNode::SetLabel(QString viewLabel, int viewLayoutX, int viewLayoutY, int viewLayoutZ)
 {
     this->viewLabel = viewLabel;
     this->viewLayoutX = viewLayoutX;

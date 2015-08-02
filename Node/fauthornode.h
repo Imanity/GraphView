@@ -7,12 +7,12 @@ class FAuthorNode : public FNode
 {
 public:
     int year;
-    char *id;
-    char *authorName;
-    char *authorNameShort;
+    QString id;
+    QString authorName;
+    QString authorNameShort;
 public:
     FAuthorNode();
-    FAuthorNode(int nodeId, int year, char *id, char *authorName, char *authorNameShort);
+    FAuthorNode(int nodeId, int year, QString id, QString authorName, QString authorNameShort);
 };
 
 #endif // FAUTHORNODE_H

@@ -7,12 +7,12 @@ class FConferenceNode : public FNode
 {
 public:
     int year;
-    char *id;
-    char *conferenceName;
-    char *conferenceNameShort;
+    QString id;
+    QString conferenceName;
+    QString conferenceNameShort;
 public:
     FConferenceNode();
-    FConferenceNode(int nodeId, int year, char *id, char *conferenceName, char *conferenceNameShort);
+    FConferenceNode(int nodeId, int year, QString id, QString conferenceName, QString conferenceNameShort);
 };
 
 #endif // FCONFERENCENODE_H

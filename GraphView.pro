@@ -26,7 +26,8 @@ SOURCES += main.cpp \
     Edge/fundirectededge.cpp \
     paperconferenceauthorwindow.cpp \
     loaddialog.cpp \
-    aboutdialog.cpp
+    aboutdialog.cpp \
+    topicwindow.cpp
 
 HEADERS  += \
     Graph/fgraph.h \
@@ -42,12 +43,14 @@ HEADERS  += \
     Edge/fundirectededge.h \
     paperconferenceauthorwindow.h \
     loaddialog.h \
-    aboutdialog.h
+    aboutdialog.h \
+    topicwindow.h
 
 FORMS    += \
     paperconferenceauthorwindow.ui \
     loaddialog.ui \
-    aboutdialog.ui
+    aboutdialog.ui \
+    topicwindow.ui
 
 win32 {
     LIBS += "D:/Program Files/OGDF/x64/Debug/ogdf.lib"

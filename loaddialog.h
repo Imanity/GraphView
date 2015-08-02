@@ -17,6 +17,7 @@ public:
 
 public slots:
     void onPCAGraphButtonClicked();
+    void onTGraphButtonClicked();
     void onAboutButtonClicked();
 
 private:

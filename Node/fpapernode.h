@@ -7,16 +7,16 @@ class FPaperNode : public FNode
 {
 public:
     int year;
-    char *authors;
+    QString authors;
     int dateFrom;
-    char *id;
+    QString id;
     int pageFrom;
-    char *paperTitle;
-    char *paperTitleShort;
+    QString paperTitle;
+    QString paperTitleShort;
 public:
     FPaperNode();
-    FPaperNode(int nodeId, int year, char *authors, int dateFrom, char *id,
-               int pageFrom, char *paperTitle, char *paperTitleShort);
+    FPaperNode(int nodeId, int year, QString authors, int dateFrom, QString id,
+               int pageFrom, QString paperTitle, QString paperTitleShort);
 };
 
 #endif // FPAPERNODE_H

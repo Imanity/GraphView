@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PaperConferenceAuthorWindow</class>
- <widget class="QMainWindow" name="PaperConferenceAuthorWindow">
+ <class>TopicWindow</class>
+ <widget class="QMainWindow" name="TopicWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -28,14 +28,14 @@
       </property>
       <property name="sizeHint" stdset="0">
        <size>
-        <width>581</width>
+        <width>538</width>
         <height>20</height>
        </size>
       </property>
      </spacer>
     </item>
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0">
+     <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,1">
       <item>
        <widget class="QGroupBox" name="groupBox">
         <property name="autoFillBackground">
@@ -45,19 +45,6 @@
          <string>选择布局</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout">
-         <item>
-          <widget class="QRadioButton" name="initLayoutButton">
-           <property name="focusPolicy">
-            <enum>Qt::NoFocus</enum>
-           </property>
-           <property name="text">
-            <string>初始布局</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
          <item>
           <widget class="QRadioButton" name="randomLayoutButton">
            <property name="focusPolicy">
@@ -86,6 +73,9 @@
            <property name="text">
             <string>圆形均匀布局</string>
            </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
          <item>
@@ -109,7 +99,7 @@
         <property name="title">
          <string>Node信息</string>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
+        <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0">
          <item>
           <widget class="QLabel" name="nodeId">
            <property name="text">
@@ -118,23 +108,15 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="type">
-           <property name="text">
-            <string>&lt;b&gt;type：&lt;/b&gt;</string>
+          <widget class="QTextEdit" name="textEdit">
+           <property name="enabled">
+            <bool>false</bool>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="year">
-           <property name="text">
-            <string>&lt;b&gt;year:&lt;/b&gt;</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="id">
-           <property name="text">
-            <string>&lt;b&gt;ID:&lt;/b&gt;</string>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
           </widget>
          </item>
