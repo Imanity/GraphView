@@ -15,7 +15,7 @@ public:
     FGraph();
     virtual void readFile() = 0;
     virtual node getOgdfId(int nodeId) = 0;
-    virtual FNode getNode(int nodeId) = 0;
+    virtual FNode& getNode(int nodeId) = 0;
     virtual void resetStatus() = 0;
     virtual void getFmmmLayout() = 0;
     virtual void changeToFmmmLayout() = 0;

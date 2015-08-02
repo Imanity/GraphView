@@ -22,6 +22,11 @@ private:
     double centerX, centerY;
     double shiftX, shiftY;
     double mouseX, mouseY;
+    double pressX, pressY;
+    double tmpX, tmpY;
+    bool isPressed;
+    bool isDraged;
+    double highLightX, highLightY, highLightId;
 
 public:
     FPaperConferenceAuthorGraph graph;
@@ -34,6 +39,9 @@ private:
     bool event(QEvent *event);
     void mouseMoveEvent(QMouseEvent* event);
     void wheelEvent(QWheelEvent* event);
+    void mousePressEvent(QMouseEvent* event);
+    void mouseReleaseEvent(QMouseEvent* event);
+    void getHighLight();
 
 public slots:
     void onInitLayoutClicked();

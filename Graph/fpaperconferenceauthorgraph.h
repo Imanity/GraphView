@@ -22,7 +22,7 @@ public:
     FPaperConferenceAuthorGraph();
     virtual void readFile();
     virtual node getOgdfId(int nodeId);
-    virtual FNode getNode(int nodeId);
+    virtual FNode& getNode(int nodeId);
     virtual void resetStatus();
     virtual void getFmmmLayout();
     virtual void changeToFmmmLayout();

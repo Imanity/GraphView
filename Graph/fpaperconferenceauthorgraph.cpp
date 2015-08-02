@@ -246,7 +246,7 @@ node FPaperConferenceAuthorGraph::getOgdfId(int nodeId)
     }
 }
 
-FNode FPaperConferenceAuthorGraph::getNode(int nodeId)
+FNode& FPaperConferenceAuthorGraph::getNode(int nodeId)
 {
     for(int i = 0; i < paperNodes.size(); ++i)
     {

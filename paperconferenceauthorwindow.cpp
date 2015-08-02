@@ -16,6 +16,15 @@ PaperConferenceAuthorWindow::PaperConferenceAuthorWindow(QWidget *parent) :
     centerY = 250;
     shiftX = 0;
     shiftY = 0;
+    highLightX = -1;
+    highLightY = -1;
+    highLightId = -1;
+    pressX = -1;
+    pressY = -1;
+    tmpX = -1;
+    tmpY = -1;
+    isPressed = false;
+    isDraged = false;
     mouseX = QCursor::pos().x();
     mouseY = QCursor::pos().y();
     timer = new QTimer(this);
@@ -69,6 +78,15 @@ void PaperConferenceAuthorWindow::paintEvent(QPaintEvent *ev)
         tmpY = (graph.conferenceNodes[i].nowViewY - centerY) * zoomRate + centerY + shiftY;
         p.drawEllipse(tmpX - 4, tmpY - 4, 8, 8);
     }
+    p.setPen(Qt::black);
+    p.setBrush(Qt::NoBrush);
+    if(highLightId >= 0)
+    {
+        for(int i = 5; i <= 7; ++i)
+        {
+            p.drawEllipse(highLightX - i, highLightY - i, 2 * i, 2 * i);
+        }
+    }
 }
 
 bool PaperConferenceAuthorWindow::event(QEvent *event)
@@ -109,6 +127,51 @@ void PaperConferenceAuthorWindow::mouseMoveEvent(QMouseEvent* event)
 {
     mouseX = event->pos().x();
     mouseY = event->pos().y();
+    if(highLightId != -1)
+    {
+        setCursor(Qt::PointingHandCursor);
+    } else {
+        setCursor(Qt::ArrowCursor);
+    }
+    if(isPressed)
+    {
+        shiftX = tmpX + mouseX - pressX;
+        shiftY = tmpY + mouseY - pressY;
+    }
+    if(isDraged)
+    {
+        setCursor(Qt::SizeAllCursor);
+        highLightX = mouseX;
+        highLightY = mouseY;
+        graph.getNode(highLightId).nowViewX = tmpX + (mouseX - ((tmpX - centerX) * zoomRate + shiftX + centerX)) / zoomRate;
+        graph.getNode(highLightId).nowViewY = tmpY + (mouseY - ((tmpY - centerY) * zoomRate + shiftY + centerY)) / zoomRate;
+        graph.getNode(highLightId).oldViewX = graph.getNode(highLightId).nowViewX;
+        graph.getNode(highLightId).oldViewY = graph.getNode(highLightId).nowViewY;
+    } else {
+        getHighLight();
+    }
+}
+
+void PaperConferenceAuthorWindow::mousePressEvent(QMouseEvent *event)
+{
+    pressX = event->pos().x();
+    pressY = event->pos().y();
+    if(highLightId == -1)
+    {
+        tmpX = shiftX;
+        tmpY = shiftY;
+        isPressed = true;
+    } else {
+        tmpX = (highLightX - shiftX - centerX) / zoomRate + centerX;
+        tmpY = (highLightY - shiftY - centerY) / zoomRate + centerY;
+        isDraged = true;
+    }
+}
+
+void PaperConferenceAuthorWindow::mouseReleaseEvent(QMouseEvent *event)
+{
+    isPressed = false;
+    isDraged = false;
 }
 
 void PaperConferenceAuthorWindow::wheelEvent(QWheelEvent *event)
@@ -119,6 +182,7 @@ void PaperConferenceAuthorWindow::wheelEvent(QWheelEvent *event)
     zoomRate *= factor;
     shiftX += (1 - factor) * (mouseX - centerX - shiftX);
     shiftY += (1 - factor) * (mouseY - centerY - shiftY);
+    getHighLight();
     event->accept();
 }
 
@@ -253,4 +317,61 @@ void PaperConferenceAuthorWindow::onFormLayoutClicked()
 {
     nowLayout = 5;
     timer->start(40);
+}
+
+void PaperConferenceAuthorWindow::getHighLight()
+{
+    highLightId = -1;
+    double dis_2 = 64.0;
+    vector<int> nearByNodes;
+    vector<double> distance_2;
+    for(int i = 0; i < graph.paperNodes.size(); ++i)
+    {
+        double x = mouseX - ((graph.paperNodes[i].nowViewX - centerX) * zoomRate + centerX + shiftX);
+        double y = mouseY - ((graph.paperNodes[i].nowViewY - centerY) * zoomRate + centerY + shiftY);
+        if(x * x + y * y <= dis_2)
+        {
+            nearByNodes.push_back(graph.paperNodes[i].nodeId);
+            distance_2.push_back(x * x + y * y);
+        }
+    }
+    for(int i = 0; i < graph.authorNodes.size(); ++i)
+    {
+        double x = mouseX - ((graph.authorNodes[i].nowViewX - centerX) * zoomRate + centerX + shiftX);
+        double y = mouseY - ((graph.authorNodes[i].nowViewY - centerY) * zoomRate + centerY + shiftY);
+        if(x * x + y * y <= dis_2)
+        {
+            nearByNodes.push_back(graph.authorNodes[i].nodeId);
+            distance_2.push_back(x * x + y * y);
+        }
+    }
+    for(int i = 0; i < graph.conferenceNodes.size(); ++i)
+    {
+        double x = mouseX - ((graph.conferenceNodes[i].nowViewX - centerX) * zoomRate + centerX + shiftX);
+        double y = mouseY - ((graph.conferenceNodes[i].nowViewY - centerY) * zoomRate + centerY + shiftY);
+        if(x * x + y * y <= dis_2)
+        {
+            nearByNodes.push_back(graph.conferenceNodes[i].nodeId);
+            distance_2.push_back(x * x + y * y);
+        }
+    }
+    double minDis_2 = -1;
+    if(!nearByNodes.empty())
+    {
+        for(int i = 0; i < nearByNodes.size(); ++i)
+        {
+            if(distance_2[i] < minDis_2 || minDis_2 == -1)
+            {
+                minDis_2 = distance_2[i];
+                highLightId = nearByNodes[i];
+                highLightX = (graph.getNode(nearByNodes[i]).nowViewX - centerX) * zoomRate + centerX + shiftX;
+                highLightY = (graph.getNode(nearByNodes[i]).nowViewY - centerY) * zoomRate + centerY + shiftY;
+            }
+        }
+    }
+    if(highLightId == -1)
+    {
+        highLightX = -1;
+        highLightY = -1;
+    }
 }

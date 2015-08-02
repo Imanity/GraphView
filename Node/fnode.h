@@ -10,13 +10,13 @@ public:
     int nodeId;                                         //点编号
     int viewColorR, viewColorG, viewColorB, viewColorA; //界面显示颜色
     char *viewLabel;                                    //界面显示标签
-    int viewLayoutX, viewLayoutY, viewLayoutZ;          //预置界面显示位置
-    int nowViewX, nowViewY;                             //当前显示位置
-    int oldViewX, oldViewY;                             //旧显示位置
-    int randomViewX, randomViewY;                       //随机布局
-    int fmmmViewX, fmmmViewY;                           //energy-based布局
-    int circleViewX, circleViewY;                       //圆形均匀布局
-    int formViewX, formViewY;                           //平铺布局
+    double viewLayoutX, viewLayoutY, viewLayoutZ;          //预置界面显示位置
+    double nowViewX, nowViewY;                             //当前显示位置
+    double oldViewX, oldViewY;                             //旧显示位置
+    double randomViewX, randomViewY;                       //随机布局
+    double fmmmViewX, fmmmViewY;                           //energy-based布局
+    double circleViewX, circleViewY;                       //圆形均匀布局
+    double formViewX, formViewY;                           //平铺布局
     node ogdfId;                                        //ogdf编号
 public:
     FNode();
