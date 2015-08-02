@@ -12,6 +12,7 @@ LoadDialog::LoadDialog(QWidget *parent) :
     connect(ui->PCAGraphButton, SIGNAL(clicked()), this, SLOT(onPCAGraphButtonClicked()));
     connect(ui->TGraphButton, SIGNAL(clicked()), this, SLOT(onTGraphButtonClicked()));
     connect(ui->aboutButton, SIGNAL(clicked()), this, SLOT(onAboutButtonClicked()));
+    connect(ui->quitButton, SIGNAL(clicked()), this, SLOT(close()));
 }
 
 LoadDialog::~LoadDialog()

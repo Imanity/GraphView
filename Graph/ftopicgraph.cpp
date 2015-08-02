@@ -188,3 +188,25 @@ void FTopicGraph::setForm()
         topicNodes[i].formViewY = currentY;
     }
 }
+
+QString FTopicGraph::getTopicWords(int nodeId)
+{
+    for(int i = 0; i < topicNodes.size(); ++i)
+    {
+        if(topicNodes[i].nodeId == nodeId)
+        {
+            return topicNodes[i].topicWords;
+        }
+    }
+}
+
+QString FTopicGraph::getTopicDocuments(int nodeId)
+{
+    for(int i = 0; i < topicNodes.size(); ++i)
+    {
+        if(topicNodes[i].nodeId == nodeId)
+        {
+            return topicNodes[i].topicDocuments;
+        }
+    }
+}

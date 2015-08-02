@@ -2,7 +2,7 @@
 #define FTOPICGRAPH_H
 
 #include <vector>
-#include<QString>
+#include <QString>
 #include "fgraph.h"
 #include "Node/ftopicnode.h"
 #include "Edge/fundirectededge.h"
@@ -26,6 +26,8 @@ public:
     virtual void setRandom();
     virtual void setCircle();
     virtual void setForm();
+    QString getTopicWords(int nodeId);
+    QString getTopicDocuments(int nodeId);
 };
 
 #endif // FTOPICGRAPH_H

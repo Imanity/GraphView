@@ -26,6 +26,14 @@ private:
     double tmpX, tmpY;
     bool isPressed;
     bool isDraged;
+    bool isCtrled;
+    bool isGroupDraged;
+    bool isGroupMove;
+    double upBorder, downBorder, leftBorder, rightBorder;
+    vector<int> groupNodes;
+    vector<double> groupNodesTmpX;
+    vector<double> groupNodesTmpY;
+    bool isDisplayGroup;
     double highLightX, highLightY, highLightId;
 
 public:
@@ -42,6 +50,8 @@ private:
     void mousePressEvent(QMouseEvent* event);
     void mouseReleaseEvent(QMouseEvent* event);
     void getHighLight();
+    void getGroupNodes();
+    void resetGroupMove();
 
 public slots:
     void onRandomLayoutClicked();

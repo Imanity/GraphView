@@ -25,6 +25,14 @@ TopicWindow::TopicWindow(QWidget *parent) :
     tmpY = -1;
     isPressed = false;
     isDraged = false;
+    isCtrled = false;
+    isGroupDraged = false;
+    upBorder = -1;
+    downBorder = -1;
+    leftBorder = -1;
+    rightBorder = -1;
+    isDisplayGroup = false;
+    isGroupMove = false;
     mouseX = QCursor::pos().x();
     mouseY = QCursor::pos().y();
     timer = new QTimer(this);
@@ -64,10 +72,29 @@ void TopicWindow::paintEvent(QPaintEvent *ev)
         tmpY = (graph.topicNodes[i].nowViewY - centerY) * zoomRate + centerY + shiftY;
         p.drawEllipse(tmpX - 4, tmpY - 4, 8, 8);
     }
-    p.setPen(Qt::black);
     p.setBrush(Qt::NoBrush);
-    if(highLightId >= 0)
+    if(isGroupDraged)
     {
+        p.setPen(QPen(Qt::green, 2));
+        p.setBrush(QColor(0, 255, 100, 50));
+        p.drawRect(leftBorder, upBorder, mouseX - leftBorder, mouseY - upBorder);
+    }
+    p.setBrush(Qt::NoBrush);
+    if(isDisplayGroup)
+    {
+        p.setPen(Qt::green);
+        for(int i = 0; i < groupNodes.size(); ++i)
+        {
+            tmpX = (graph.getNode(groupNodes[i]).nowViewX - centerX) * zoomRate + centerX + shiftX;
+            tmpY = (graph.getNode(groupNodes[i]).nowViewY - centerY) * zoomRate + centerY + shiftY;
+            for(int i = 5; i <= 7; ++i)
+            {
+                p.drawEllipse(tmpX - i, tmpY - i, 2 * i, 2 * i);
+            }
+        }
+    } else if(highLightId >= 0)
+    {
+        p.setPen(Qt::black);
         for(int i = 5; i <= 7; ++i)
         {
             p.drawEllipse(highLightX - i, highLightY - i, 2 * i, 2 * i);
@@ -104,6 +131,17 @@ bool TopicWindow::event(QEvent *event)
         {
             zoomRate *= 0.9;
         }
+        if(keyEvent->key() == Qt::Key_Control)
+        {
+            isCtrled = true;
+        }
+    } else if(event->type() == QEvent::KeyRelease)
+    {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if(keyEvent->key() == Qt::Key_Control)
+        {
+            isCtrled = false;
+        }
     }
     update();
     return QWidget::event(event);
@@ -118,6 +156,7 @@ void TopicWindow::mouseMoveEvent(QMouseEvent* event)
         setCursor(Qt::PointingHandCursor);
         //显示信息
         ui->nodeId->setText("<b>nodeId: </b>" + QString::number(graph.getNode(highLightId).nodeId));
+        ui->textEdit->setText("<b>topicWords:</b><br>" + graph.getTopicWords(highLightId));
     } else {
         setCursor(Qt::ArrowCursor);
         //清空信息
@@ -129,7 +168,17 @@ void TopicWindow::mouseMoveEvent(QMouseEvent* event)
         shiftX = tmpX + mouseX - pressX;
         shiftY = tmpY + mouseY - pressY;
     }
-    if(isDraged)
+    if(isDisplayGroup && isGroupMove)
+    {
+        setCursor(Qt::SizeAllCursor);
+        for(int i = 0; i < groupNodes.size(); ++i)
+        {
+            graph.getNode(groupNodes[i]).nowViewX = groupNodesTmpX[i] + (mouseX - pressX) / zoomRate;
+            graph.getNode(groupNodes[i]).nowViewY = groupNodesTmpY[i] + (mouseY - pressY) / zoomRate;
+            graph.getNode(groupNodes[i]).oldViewX = graph.getNode(groupNodes[i]).nowViewX;
+            graph.getNode(groupNodes[i]).oldViewY = graph.getNode(groupNodes[i]).nowViewY;
+        }
+    }else if(isDraged)
     {
         setCursor(Qt::SizeAllCursor);
         highLightX = mouseX;
@@ -147,7 +196,15 @@ void TopicWindow::mousePressEvent(QMouseEvent *event)
 {
     pressX = event->pos().x();
     pressY = event->pos().y();
-    if(highLightId == -1)
+    if(isCtrled)
+    {
+        upBorder = pressY;
+        leftBorder = pressX;
+        isGroupDraged = true;
+    } else if(isDisplayGroup)
+    {
+        isGroupMove = true;
+    } else if(highLightId == -1)
     {
         tmpX = shiftX;
         tmpY = shiftY;
@@ -161,8 +218,30 @@ void TopicWindow::mousePressEvent(QMouseEvent *event)
 
 void TopicWindow::mouseReleaseEvent(QMouseEvent *event)
 {
+    for(int i = 0; i < groupNodes.size(); ++i)
+    {
+        groupNodesTmpX[i] = graph.getNode(groupNodes[i]).nowViewX;
+        groupNodesTmpY[i] = graph.getNode(groupNodes[i]).nowViewY;
+    }
+    if(event->pos().x() == pressX && event->pos().y() == pressY)
+    {
+        isDisplayGroup = false;
+    }
+    if(isGroupDraged)
+    {
+        downBorder = event->pos().y();
+        rightBorder = event->pos().x();
+        getGroupNodes();
+    }
     isPressed = false;
     isDraged = false;
+    isCtrled = false;
+    isGroupDraged = false;
+    isGroupMove = false;
+    upBorder = -1;
+    downBorder = -1;
+    leftBorder = -1;
+    rightBorder = -1;
 }
 
 void TopicWindow::wheelEvent(QWheelEvent *event)
@@ -215,6 +294,7 @@ void TopicWindow::timerDraw()
     }
     if(timepast >= changeSpeed)
     {
+        resetGroupMove();
         timepast = 0;
         graph.resetStatus();
         timer->stop();
@@ -281,5 +361,55 @@ void TopicWindow::getHighLight()
     {
         highLightX = -1;
         highLightY = -1;
+    }
+}
+
+void TopicWindow::getGroupNodes()
+{
+    double tmpX, tmpY;
+    groupNodes.clear();
+    groupNodesTmpX.clear();
+    groupNodesTmpY.clear();
+    double swapTmp;
+    if(leftBorder > rightBorder)
+    {
+        swapTmp = rightBorder;
+        rightBorder = leftBorder;
+        leftBorder = swapTmp;
+    }
+    if(upBorder > downBorder)
+    {
+        swapTmp = downBorder;
+        downBorder = upBorder;
+        upBorder = swapTmp;
+    }
+    for(int i = 0; i < graph.topicNodes.size(); ++i)
+    {
+        tmpX = (graph.topicNodes[i].nowViewX - centerX) * zoomRate + centerX + shiftX;
+        tmpY = (graph.topicNodes[i].nowViewY - centerY) * zoomRate + centerY + shiftY;
+        if(tmpX >= leftBorder && tmpX <= rightBorder)
+        {
+            if(tmpY >= upBorder && tmpY <= downBorder)
+            {
+                groupNodes.push_back(graph.topicNodes[i].nodeId);
+                groupNodesTmpX.push_back(graph.topicNodes[i].nowViewX);
+                groupNodesTmpY.push_back(graph.topicNodes[i].nowViewY);
+            }
+        }
+    }
+    if(!groupNodes.empty())
+    {
+        isDisplayGroup = true;
+    } else {
+        isDisplayGroup = false;
+    }
+}
+
+void TopicWindow::resetGroupMove()
+{
+    for(int i = 0; i < groupNodes.size(); ++i)
+    {
+        groupNodesTmpX[i] = graph.getNode(groupNodes[i]).nowViewX;
+        groupNodesTmpY[i] = graph.getNode(groupNodes[i]).nowViewY;
     }
 }
