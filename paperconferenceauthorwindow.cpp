@@ -3,6 +3,8 @@
 #include <cmath>
 #include "paperconferenceauthorwindow.h"
 #include "ui_paperconferenceauthorwindow.h"
+#include "paperdialog.h"
+#pragma execution_character_set("utf-8")
 
 PaperConferenceAuthorWindow::PaperConferenceAuthorWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -42,6 +44,7 @@ PaperConferenceAuthorWindow::PaperConferenceAuthorWindow(QWidget *parent) :
     ui->setupUi(this);
     graph.readFile();
     ui->NodeSelecter->setMaximum(graph.maxConnectivity);
+    ui->status->setText("Press Ctrl to activate extra function");
     connect(timer, SIGNAL(timeout()),this, SLOT(timerDraw()));
     connect(ui->initLayoutButton, SIGNAL(clicked()), this, SLOT(onInitLayoutClicked()));
     connect(ui->randomLayoutButton, SIGNAL(clicked()), this, SLOT(onRandomLayoutClicked()));
@@ -173,6 +176,7 @@ bool PaperConferenceAuthorWindow::event(QEvent *event)
         }
         if(keyEvent->key() == Qt::Key_Control)
         {
+            ui->status->setText("Drag to select nodes. Press the node to edit it.");
             isCtrled = true;
         }
     } else if(event->type() == QEvent::KeyRelease)
@@ -180,6 +184,7 @@ bool PaperConferenceAuthorWindow::event(QEvent *event)
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
         if(keyEvent->key() == Qt::Key_Control)
         {
+            ui->status->setText("Press Ctrl to activate extra function");
             isCtrled = false;
         }
     }
@@ -271,6 +276,10 @@ void PaperConferenceAuthorWindow::mouseReleaseEvent(QMouseEvent *event)
     if(event->pos().x() == pressX && event->pos().y() == pressY)
     {
         isDisplayGroup = false;
+        if(isCtrled && highLightId != -1)
+        {
+            setPaperNode(highLightId);
+        }
     }
     if(isGroupDraged)
     {
@@ -608,4 +617,18 @@ void PaperConferenceAuthorWindow::loadLayout()
     graph.loadLayout();
     resetView();
     update();
+}
+
+void PaperConferenceAuthorWindow::setPaperNode(int nodeId)
+{
+    paperDialog *dialog = new paperDialog;
+    dialog->year = graph.getYear(nodeId);
+    dialog->authors = graph.getAuthors(nodeId).replace("\\n", "<br>");
+    dialog->dateFrom = graph.getDateFrom(nodeId);
+    dialog->id = graph.getId(nodeId);
+    dialog->pageFrom = graph.getPageFrom(nodeId);
+    dialog->paperTitle = graph.getPaperTitle(nodeId);
+    dialog->paperTitleShort = graph.getPaperTitleShort(nodeId);
+    dialog->refresh();
+    dialog->exec();
 }

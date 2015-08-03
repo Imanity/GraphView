@@ -54,6 +54,7 @@ private:
     void getHighLight();
     void getGroupNodes();
     void resetGroupMove();
+    void setPaperNode(int nodeId);
 
 public slots:
     void onInitLayoutClicked();

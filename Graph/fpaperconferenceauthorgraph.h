@@ -33,7 +33,12 @@ public:
     virtual void getMaxConnectivity();
     QString getType(int nodeId);
     int getYear(int nodeId);
+    QString getAuthors(int nodeId);
+    int getDateFrom(int nodeId);
     QString getId(int nodeId);
+    int getPageFrom(int nodeId);
+    QString getPaperTitle(int nodeId);
+    QString getPaperTitleShort(int nodeId);
     virtual void saveLayout();
     virtual void loadLayout();
 };

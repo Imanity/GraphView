@@ -42,6 +42,7 @@ TopicWindow::TopicWindow(QWidget *parent) :
     ui->setupUi(this);
     graph.readFile();
     ui->NodeSelecter->setMaximum(graph.maxConnectivity);
+    ui->status->setText("Press Ctrl to activate extra function");
     connect(timer, SIGNAL(timeout()),this, SLOT(timerDraw()));
     connect(ui->randomLayoutButton, SIGNAL(clicked()), this, SLOT(onRandomLayoutClicked()));
     connect(ui->FmmmLayoutButton, SIGNAL(clicked()), this, SLOT(onFmmmLayoutClicked()));
@@ -148,6 +149,7 @@ bool TopicWindow::event(QEvent *event)
         }
         if(keyEvent->key() == Qt::Key_Control)
         {
+            ui->status->setText("Drag to select nodes. Press the node to edit it.");
             isCtrled = true;
         }
     } else if(event->type() == QEvent::KeyRelease)
@@ -155,6 +157,7 @@ bool TopicWindow::event(QEvent *event)
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
         if(keyEvent->key() == Qt::Key_Control)
         {
+            ui->status->setText("Press Ctrl to activate extra function");
             isCtrled = false;
         }
     }
