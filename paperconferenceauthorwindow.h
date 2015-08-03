@@ -55,6 +55,8 @@ private:
     void getGroupNodes();
     void resetGroupMove();
     void setPaperNode(int nodeId);
+    void setConferenceNode(int nodeId);
+    void setAuthorNode(int nodeId);
 
 public slots:
     void onInitLayoutClicked();

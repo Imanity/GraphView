@@ -256,6 +256,9 @@
           <layout class="QHBoxLayout" name="horizontalLayout_5">
            <item>
             <widget class="QPushButton" name="saveLayout">
+             <property name="focusPolicy">
+              <enum>Qt::NoFocus</enum>
+             </property>
              <property name="text">
               <string>保存布局</string>
              </property>
@@ -263,6 +266,9 @@
            </item>
            <item>
             <widget class="QPushButton" name="loadLayout">
+             <property name="focusPolicy">
+              <enum>Qt::NoFocus</enum>
+             </property>
              <property name="text">
               <string>读取布局</string>
              </property>

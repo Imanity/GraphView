@@ -4,7 +4,8 @@
 #include "paperconferenceauthorwindow.h"
 #include "ui_paperconferenceauthorwindow.h"
 #include "paperdialog.h"
-#pragma execution_character_set("utf-8")
+#include "conferencedialog.h"
+#include "authordialog.h"
 
 PaperConferenceAuthorWindow::PaperConferenceAuthorWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -278,7 +279,16 @@ void PaperConferenceAuthorWindow::mouseReleaseEvent(QMouseEvent *event)
         isDisplayGroup = false;
         if(isCtrled && highLightId != -1)
         {
-            setPaperNode(highLightId);
+            if(graph.getType(highLightId) == "Paper")
+            {
+                setPaperNode(highLightId);
+            } else if(graph.getType(highLightId) == "Conference")
+            {
+                setConferenceNode(highLightId);
+            } else if(graph.getType(highLightId) == "Author")
+            {
+                setAuthorNode(highLightId);
+            }
         }
     }
     if(isGroupDraged)
@@ -621,7 +631,7 @@ void PaperConferenceAuthorWindow::loadLayout()
 
 void PaperConferenceAuthorWindow::setPaperNode(int nodeId)
 {
-    paperDialog *dialog = new paperDialog;
+    paperDialog *dialog = new paperDialog();
     dialog->year = graph.getYear(nodeId);
     dialog->authors = graph.getAuthors(nodeId).replace("\\n", "<br>");
     dialog->dateFrom = graph.getDateFrom(nodeId);
@@ -629,6 +639,28 @@ void PaperConferenceAuthorWindow::setPaperNode(int nodeId)
     dialog->pageFrom = graph.getPageFrom(nodeId);
     dialog->paperTitle = graph.getPaperTitle(nodeId);
     dialog->paperTitleShort = graph.getPaperTitleShort(nodeId);
+    dialog->refresh();
+    dialog->exec();
+}
+
+void PaperConferenceAuthorWindow::setConferenceNode(int nodeId)
+{
+    conferenceDialog *dialog = new conferenceDialog();
+    dialog->year = graph.getYear(nodeId);
+    dialog->id = graph.getId(nodeId);
+    dialog->conferenceName = graph.getConferenceName(nodeId);
+    dialog->conferenceNameShort = graph.getConferenceNameShort(nodeId);
+    dialog->refresh();
+    dialog->exec();
+}
+
+void PaperConferenceAuthorWindow::setAuthorNode(int nodeId)
+{
+    authorDialog *dialog = new authorDialog();
+    dialog->year = graph.getYear(nodeId);
+    dialog->id = graph.getId(nodeId);
+    dialog->authorName = graph.getAuthorName(nodeId);
+    dialog->authorNameShort = graph.getAuthorNameShort(nodeId);
     dialog->refresh();
     dialog->exec();
 }

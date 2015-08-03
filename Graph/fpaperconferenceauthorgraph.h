@@ -39,6 +39,10 @@ public:
     int getPageFrom(int nodeId);
     QString getPaperTitle(int nodeId);
     QString getPaperTitleShort(int nodeId);
+    QString getConferenceName(int nodeId);
+    QString getConferenceNameShort(int nodeId);
+    QString getAuthorName(int nodeId);
+    QString getAuthorNameShort(int nodeId);
     virtual void saveLayout();
     virtual void loadLayout();
 };

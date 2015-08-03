@@ -551,6 +551,50 @@ QString FPaperConferenceAuthorGraph::getPaperTitleShort(int nodeId)
     }
 }
 
+QString FPaperConferenceAuthorGraph::getConferenceName(int nodeId)
+{
+    for(int i = 0; i < conferenceNodes.size(); ++i)
+    {
+        if(conferenceNodes[i].nodeId == nodeId)
+        {
+            return conferenceNodes[i].conferenceName;
+        }
+    }
+}
+
+QString FPaperConferenceAuthorGraph::getConferenceNameShort(int nodeId)
+{
+    for(int i = 0; i < conferenceNodes.size(); ++i)
+    {
+        if(conferenceNodes[i].nodeId == nodeId)
+        {
+            return conferenceNodes[i].conferenceNameShort;
+        }
+    }
+}
+
+QString FPaperConferenceAuthorGraph::getAuthorName(int nodeId)
+{
+    for(int i = 0; i < authorNodes.size(); ++i)
+    {
+        if(authorNodes[i].nodeId == nodeId)
+        {
+            return authorNodes[i].authorName;
+        }
+    }
+}
+
+QString FPaperConferenceAuthorGraph::getAuthorNameShort(int nodeId)
+{
+    for(int i = 0; i < authorNodes.size(); ++i)
+    {
+        if(authorNodes[i].nodeId == nodeId)
+        {
+            return authorNodes[i].authorNameShort;
+        }
+    }
+}
+
 void FPaperConferenceAuthorGraph::getMaxConnectivity()
 {
     for(int i = 0; i < paperNodes.size(); ++i)
