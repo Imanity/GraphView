@@ -60,6 +60,7 @@ public slots:
     void onCircleLayoutClicked();
     void onFormLayoutClicked();
     void timerDraw();
+    void resetView();
 };
 
 #endif // PAPERCONFERENCEAUTHORWINDOW_H

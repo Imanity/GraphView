@@ -44,6 +44,7 @@ PaperConferenceAuthorWindow::PaperConferenceAuthorWindow(QWidget *parent) :
     connect(ui->FmmmLayoutButton, SIGNAL(clicked()), this, SLOT(onFmmmLayoutClicked()));
     connect(ui->circleLayoutButton, SIGNAL(clicked()), this, SLOT(onCircleLayoutClicked()));
     connect(ui->formLayoutButton, SIGNAL(clicked()), this, SLOT(onFormLayoutClicked()));
+    connect(ui->resetView, SIGNAL(clicked()), this, SLOT(resetView()));
 }
 
 PaperConferenceAuthorWindow::~PaperConferenceAuthorWindow()
@@ -542,4 +543,11 @@ void PaperConferenceAuthorWindow::resetGroupMove()
         groupNodesTmpX[i] = graph.getNode(groupNodes[i]).nowViewX;
         groupNodesTmpY[i] = graph.getNode(groupNodes[i]).nowViewY;
     }
+}
+
+void PaperConferenceAuthorWindow::resetView()
+{
+    zoomRate = 1.0;
+    shiftX = 0;
+    shiftY = 0;
 }

@@ -59,6 +59,7 @@ public slots:
     void onCircleLayoutClicked();
     void onFormLayoutClicked();
     void timerDraw();
+    void resetView();
 };
 
 #endif // TOPICWINDOW_H

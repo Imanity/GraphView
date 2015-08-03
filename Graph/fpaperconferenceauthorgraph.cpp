@@ -92,8 +92,8 @@ void FPaperConferenceAuthorGraph::readFile()
             words = lineStr.split(": ");
             viewLabel = words[1].trimmed();
             lineStr = inFile.readLine();
-            viewLabelX = lineStr.section(QRegExp("[(,)]"), 1, 1).toDouble() * 2 - 150;
-            viewLabelY = lineStr.section(QRegExp("[(,)]"), 2, 2).toDouble() * 2 - 150;
+            viewLabelX = lineStr.section(QRegExp("[(,)]"), 1, 1).toDouble() * 2.8 - 210;
+            viewLabelY = lineStr.section(QRegExp("[(,)]"), 2, 2).toDouble() * 2.8 - 210;
             viewLabelZ = lineStr.section(QRegExp("[(,)]"), 3, 3).toDouble();
             newNode.SetLabel(viewLabel, viewLabelX, viewLabelY, viewLabelZ);
             newNode.ogdfId = graphView.newNode();
@@ -134,8 +134,8 @@ void FPaperConferenceAuthorGraph::readFile()
             words = lineStr.split(": ");
             viewLabel = words[1].trimmed();
             lineStr = inFile.readLine();
-            viewLabelX = lineStr.section(QRegExp("[(,)]"), 1, 1).toDouble() * 2 - 150;
-            viewLabelY = lineStr.section(QRegExp("[(,)]"), 2, 2).toDouble() * 2 - 150;
+            viewLabelX = lineStr.section(QRegExp("[(,)]"), 1, 1).toDouble() * 2.8 - 210;
+            viewLabelY = lineStr.section(QRegExp("[(,)]"), 2, 2).toDouble() * 2.8 - 210;
             viewLabelZ = lineStr.section(QRegExp("[(,)]"), 3, 3).toDouble();
             newNode.SetLabel(viewLabel, viewLabelX, viewLabelY, viewLabelZ);
             newNode.ogdfId = graphView.newNode();
@@ -176,8 +176,8 @@ void FPaperConferenceAuthorGraph::readFile()
             words = lineStr.split(": ");
             viewLabel = words[1].trimmed();
             lineStr = inFile.readLine();
-            viewLabelX = lineStr.section(QRegExp("[(,)]"), 1, 1).toDouble() * 2 - 150;
-            viewLabelY = lineStr.section(QRegExp("[(,)]"), 2, 2).toDouble() * 2 - 150;
+            viewLabelX = lineStr.section(QRegExp("[(,)]"), 1, 1).toDouble() * 2.8 - 210;
+            viewLabelY = lineStr.section(QRegExp("[(,)]"), 2, 2).toDouble() * 2.8 - 210;
             viewLabelZ = lineStr.section(QRegExp("[(,)]"), 3, 3).toDouble();
             newNode.SetLabel(viewLabel, viewLabelX, viewLabelY, viewLabelZ);
             newNode.ogdfId = graphView.newNode();
@@ -299,18 +299,18 @@ void FPaperConferenceAuthorGraph::getFmmmLayout()
     double height = rect.height();
     for(int i = 0; i < paperNodes.size(); ++i)
     {
-        paperNodes[i].fmmmViewX = GA.x(paperNodes[i].ogdfId) / width * 500 - 20;
-        paperNodes[i].fmmmViewY = GA.y(paperNodes[i].ogdfId) / height * 500 - 20;
+        paperNodes[i].fmmmViewX = GA.x(paperNodes[i].ogdfId) / width * 700 - 35;
+        paperNodes[i].fmmmViewY = GA.y(paperNodes[i].ogdfId) / height * 700 - 35;
     }
     for(int i = 0; i < authorNodes.size(); ++i)
     {
-        authorNodes[i].fmmmViewX = GA.x(authorNodes[i].ogdfId) / width * 500 - 20;
-        authorNodes[i].fmmmViewY = GA.y(authorNodes[i].ogdfId) / height * 500 - 20;
+        authorNodes[i].fmmmViewX = GA.x(authorNodes[i].ogdfId) / width * 700 - 35;
+        authorNodes[i].fmmmViewY = GA.y(authorNodes[i].ogdfId) / height * 700 - 35;
     }
     for(int i = 0; i < conferenceNodes.size(); ++i)
     {
-        conferenceNodes[i].fmmmViewX = GA.x(conferenceNodes[i].ogdfId) / width * 500 - 20;
-        conferenceNodes[i].fmmmViewY = GA.y(conferenceNodes[i].ogdfId) / height * 500 - 20;
+        conferenceNodes[i].fmmmViewX = GA.x(conferenceNodes[i].ogdfId) / width * 700 - 35;
+        conferenceNodes[i].fmmmViewY = GA.y(conferenceNodes[i].ogdfId) / height * 700 - 35;
     }
 }
 
@@ -337,18 +337,18 @@ void FPaperConferenceAuthorGraph::setRandom()
 {
     for(int i = 0; i < paperNodes.size(); ++i)
     {
-        paperNodes[i].randomViewX = (double)rand() / (double)RAND_MAX * 500;
-        paperNodes[i].randomViewY = (double)rand() / (double)RAND_MAX * 500;
+        paperNodes[i].randomViewX = (double)rand() / (double)RAND_MAX * 700;
+        paperNodes[i].randomViewY = (double)rand() / (double)RAND_MAX * 700;
     }
     for(int i = 0; i < authorNodes.size(); ++i)
     {
-        authorNodes[i].randomViewX = (double)rand() / (double)RAND_MAX * 500;
-        authorNodes[i].randomViewY = (double)rand() / (double)RAND_MAX * 500;
+        authorNodes[i].randomViewX = (double)rand() / (double)RAND_MAX * 700;
+        authorNodes[i].randomViewY = (double)rand() / (double)RAND_MAX * 700;
     }
     for(int i = 0; i < conferenceNodes.size(); ++i)
     {
-        conferenceNodes[i].randomViewX = (double)rand() / (double)RAND_MAX * 500;
-        conferenceNodes[i].randomViewY = (double)rand() / (double)RAND_MAX * 500;
+        conferenceNodes[i].randomViewX = (double)rand() / (double)RAND_MAX * 700;
+        conferenceNodes[i].randomViewY = (double)rand() / (double)RAND_MAX * 700;
     }
 }
 
@@ -358,20 +358,20 @@ void FPaperConferenceAuthorGraph::setCircle()
     double currentAngle = 0;
     for(int i = 0; i < paperNodes.size(); ++i)
     {
-        paperNodes[i].circleViewX = 250 + 200 * cos(currentAngle);
-        paperNodes[i].circleViewY = 250 + 200 * sin(currentAngle);
+        paperNodes[i].circleViewX = 350 + 280 * cos(currentAngle);
+        paperNodes[i].circleViewY = 350 + 280 * sin(currentAngle);
         currentAngle += step;
     }
     for(int i = 0; i < authorNodes.size(); ++i)
     {
-        authorNodes[i].circleViewX = 250 + 200 * cos(currentAngle);
-        authorNodes[i].circleViewY = 250 + 200 * sin(currentAngle);
+        authorNodes[i].circleViewX = 350 + 280 * cos(currentAngle);
+        authorNodes[i].circleViewY = 350 + 280 * sin(currentAngle);
         currentAngle += step;
     }
     for(int i = 0; i < conferenceNodes.size(); ++i)
     {
-        conferenceNodes[i].circleViewX = 250 + 200 * cos(currentAngle);
-        conferenceNodes[i].circleViewY = 250 + 200 * sin(currentAngle);
+        conferenceNodes[i].circleViewX = 350 + 280 * cos(currentAngle);
+        conferenceNodes[i].circleViewY = 350 + 280 * sin(currentAngle);
         currentAngle += step;
     }
 }
@@ -379,13 +379,13 @@ void FPaperConferenceAuthorGraph::setCircle()
 void FPaperConferenceAuthorGraph::setForm()
 {
     int columnNum = (int)sqrt(nodeNum);
-    double step = 500.0 / (columnNum + 1);
+    double step = 700.0 / (columnNum + 1);
     double currentX = 0, currentY = 0;
     currentY += step;
     for(int i = 0; i < paperNodes.size(); ++i)
     {
         currentX += step;
-        if(currentX >= 500)
+        if(currentX >= 700)
         {
             currentX = step;
             currentY += step;
@@ -396,7 +396,7 @@ void FPaperConferenceAuthorGraph::setForm()
     for(int i = 0; i < authorNodes.size(); ++i)
     {
         currentX += step;
-        if(currentX >= 500)
+        if(currentX >= 700)
         {
             currentX = step;
             currentY += step;
@@ -407,7 +407,7 @@ void FPaperConferenceAuthorGraph::setForm()
     for(int i = 0; i < conferenceNodes.size(); ++i)
     {
         currentX += step;
-        if(currentX >= 500)
+        if(currentX >= 700)
         {
             currentX = step;
             currentY += step;

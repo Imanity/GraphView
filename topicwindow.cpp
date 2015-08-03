@@ -12,8 +12,8 @@ TopicWindow::TopicWindow(QWidget *parent) :
     timepast = 0;
     changeSpeed = 12.0;
     zoomRate = 1.0;
-    centerX = 250;
-    centerY = 250;
+    centerX = 350;
+    centerY = 350;
     shiftX = 0;
     shiftY = 0;
     highLightX = -1;
@@ -43,6 +43,7 @@ TopicWindow::TopicWindow(QWidget *parent) :
     connect(ui->FmmmLayoutButton, SIGNAL(clicked()), this, SLOT(onFmmmLayoutClicked()));
     connect(ui->circleLayoutButton, SIGNAL(clicked()), this, SLOT(onCircleLayoutClicked()));
     connect(ui->formLayoutButton, SIGNAL(clicked()), this, SLOT(onFormLayoutClicked()));
+    connect(ui->resetView, SIGNAL(clicked()), this, SLOT(resetView()));
 }
 
 TopicWindow::~TopicWindow()
@@ -62,6 +63,7 @@ void TopicWindow::paintEvent(QPaintEvent *ev)
         line1_Y = (graph.getNode(graph.undirectedEdges[i].node1).nowViewY - centerY) * zoomRate + centerY + shiftY;
         line2_X = (graph.getNode(graph.undirectedEdges[i].node2).nowViewX - centerX) * zoomRate + centerX + shiftX;
         line2_Y = (graph.getNode(graph.undirectedEdges[i].node2).nowViewY - centerY) * zoomRate + centerY + shiftY;
+        p.setPen(QColor(0, 0, 0, graph.undirectedEdges[i].weight * 200));
         p.drawLine(line1_X, line1_Y, line2_X, line2_Y);
     }
     p.setBrush(Qt::red);
@@ -412,4 +414,11 @@ void TopicWindow::resetGroupMove()
         groupNodesTmpX[i] = graph.getNode(groupNodes[i]).nowViewX;
         groupNodesTmpY[i] = graph.getNode(groupNodes[i]).nowViewY;
     }
+}
+
+void TopicWindow::resetView()
+{
+    zoomRate = 1.0;
+    shiftX = 0;
+    shiftY = 0;
 }

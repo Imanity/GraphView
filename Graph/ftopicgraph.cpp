@@ -133,8 +133,8 @@ void FTopicGraph::getFmmmLayout()
     double height = rect.height();
     for(int i = 0; i < topicNodes.size(); ++i)
     {
-        topicNodes[i].fmmmViewX = GA.x(topicNodes[i].ogdfId) / width * 500 - 20;
-        topicNodes[i].fmmmViewY = GA.y(topicNodes[i].ogdfId) / height * 500 - 20;
+        topicNodes[i].fmmmViewX = GA.x(topicNodes[i].ogdfId) / width * 700 - 35;
+        topicNodes[i].fmmmViewY = GA.y(topicNodes[i].ogdfId) / height * 700 - 35;
     }
 }
 
@@ -151,8 +151,8 @@ void FTopicGraph::setRandom()
 {
     for(int i = 0; i < topicNodes.size(); ++i)
     {
-        topicNodes[i].randomViewX = (double)rand() / (double)RAND_MAX * 500;
-        topicNodes[i].randomViewY = (double)rand() / (double)RAND_MAX * 500;
+        topicNodes[i].randomViewX = (double)rand() / (double)RAND_MAX * 700;
+        topicNodes[i].randomViewY = (double)rand() / (double)RAND_MAX * 700;
     }
 }
 
@@ -162,8 +162,8 @@ void FTopicGraph::setCircle()
     double currentAngle = 0;
     for(int i = 0; i < topicNodes.size(); ++i)
     {
-        topicNodes[i].circleViewX = 250 + 200 * cos(currentAngle);
-        topicNodes[i].circleViewY = 250 + 200 * sin(currentAngle);
+        topicNodes[i].circleViewX = 350 + 280 * cos(currentAngle);
+        topicNodes[i].circleViewY = 350 + 280 * sin(currentAngle);
         topicNodes[i].nowViewX = topicNodes[i].circleViewX;
         topicNodes[i].nowViewY = topicNodes[i].circleViewY;
         currentAngle += step;
@@ -173,13 +173,13 @@ void FTopicGraph::setCircle()
 void FTopicGraph::setForm()
 {
     int columnNum = (int)sqrt(nodeNum);
-    double step = 500.0 / (columnNum + 1);
+    double step = 700.0 / (columnNum + 1);
     double currentX = 0, currentY = 0;
     currentY += step;
     for(int i = 0; i < topicNodes.size(); ++i)
     {
         currentX += step;
-        if(currentX >= 500)
+        if(currentX >= 700)
         {
             currentX = step;
             currentY += step;
