@@ -30,9 +30,12 @@ public:
     virtual void setRandom();
     virtual void setCircle();
     virtual void setForm();
+    virtual void getMaxConnectivity();
     QString getType(int nodeId);
     int getYear(int nodeId);
     QString getId(int nodeId);
+    virtual void saveLayout();
+    virtual void loadLayout();
 };
 
 #endif // FPAPERCONFERENCEAUTHORGRAPH_H

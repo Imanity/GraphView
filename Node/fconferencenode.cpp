@@ -12,4 +12,5 @@ FConferenceNode::FConferenceNode(int nodeId, int year, QString id, QString confe
     this->id = id;
     this->conferenceName = conferenceName;
     this->conferenceNameShort = conferenceNameShort;
+    connectivity = 0;
 }

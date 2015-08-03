@@ -12,4 +12,5 @@ FAuthorNode::FAuthorNode(int nodeId, int year, QString id, QString authorName, Q
     this->id = id;
     this->authorName = authorName;
     this->authorNameShort = authorNameShort;
+    connectivity = 0;
 }

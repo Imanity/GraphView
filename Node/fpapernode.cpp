@@ -15,4 +15,5 @@ FPaperNode::FPaperNode(int nodeId, int year, QString authors, int dateFrom, QStr
     this->pageFrom = pageFrom;
     this->paperTitle = paperTitle;
     this->paperTitleShort = paperTitleShort;
+    connectivity = 0;
 }

@@ -14,6 +14,8 @@ class TopicWindow : public QMainWindow
     Q_OBJECT
 
 private:
+    int nodeAdjust, edgeAdjust;
+    int minConnectivity;
     int timepast;
     QTimer* timer;
     int nowLayout;
@@ -60,6 +62,11 @@ public slots:
     void onFormLayoutClicked();
     void timerDraw();
     void resetView();
+    void adjustNode(int num);
+    void adjustEdge(int num);
+    void adjustconnectivity(int num);
+    void loadLayout();
+    void saveLayout();
 };
 
 #endif // TOPICWINDOW_H

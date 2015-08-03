@@ -1,4 +1,5 @@
 #include <QFile>
+#include <QTextStream>
 #include <iostream>
 #include <ctime>
 #include <cmath>
@@ -81,6 +82,8 @@ void FTopicGraph::readFile()
         words = lineStr.split(" ");
         node1 = words[0].toInt();
         node2 = words[1].toInt();
+        getNode(node1).connectivity++;
+        getNode(node2).connectivity++;
         weight = words[2].toDouble();
         FUndirectedEdge newEdge(node1, node2, weight);
         graphView.newEdge(getOgdfId(node1), getOgdfId(node2));
@@ -91,6 +94,7 @@ void FTopicGraph::readFile()
     setCircle();
     setForm();
     resetStatus();
+    getMaxConnectivity();
 }
 
 node FTopicGraph::getOgdfId(int nodeId)
@@ -209,4 +213,62 @@ QString FTopicGraph::getTopicDocuments(int nodeId)
             return topicNodes[i].topicDocuments;
         }
     }
+}
+
+void FTopicGraph::getMaxConnectivity()
+{
+    for(int i = 0; i < topicNodes.size(); ++i)
+    {
+        if(topicNodes[i].connectivity >= maxConnectivity)
+        {
+            maxConnectivity = topicNodes[i].connectivity;
+        }
+    }
+}
+
+void FTopicGraph::saveLayout()
+{
+    QString fileName;
+    if(ISWIN == 0) //Mac下文件读取
+    {
+        fileName = "/Users/imanity/Documents/Qt/GraphView/GraphData/TopicGraph/Layout.save";
+    } else { //Windows下文件读取
+        fileName = "E:/CppProjects/GraphView/GraphData/TopicGraph/Layout.save";
+    }
+    QFile outFile(fileName);
+    if(!outFile.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        cout << "Open failed." << endl;
+    }
+    QTextStream out(&outFile);
+    for(int i = 0; i < topicNodes.size(); ++i)
+    {
+        out << topicNodes[i].nowViewX << endl << topicNodes[i].nowViewY << endl;
+    }
+}
+
+void FTopicGraph::loadLayout()
+{
+    QString fileName;
+    if(ISWIN == 0) //Mac下文件读取
+    {
+        fileName = "/Users/imanity/Documents/Qt/GraphView/GraphData/TopicGraph/Layout.save";
+    } else { //Windows下文件读取
+        fileName = "E:/CppProjects/GraphView/GraphData/TopicGraph/Layout.save";
+    }
+    QFile inFile(fileName);
+    if(!inFile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        cout << "Open failed." << endl;
+    }
+    QTextStream in(&inFile);
+    QString line;
+    for(int i = 0; i < topicNodes.size(); ++i)
+    {
+        line = in.readLine().trimmed();
+        topicNodes[i].nowViewX = line.toDouble();
+        line = in.readLine().trimmed();
+        topicNodes[i].nowViewY = line.toDouble();
+    }
+    resetStatus();
 }

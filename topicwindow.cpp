@@ -8,6 +8,9 @@ TopicWindow::TopicWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::TopicWindow)
 {
+    nodeAdjust = 4;
+    edgeAdjust = 1;
+    minConnectivity = 0;
     nowLayout = 3;
     timepast = 0;
     changeSpeed = 12.0;
@@ -38,12 +41,18 @@ TopicWindow::TopicWindow(QWidget *parent) :
     timer = new QTimer(this);
     ui->setupUi(this);
     graph.readFile();
+    ui->NodeSelecter->setMaximum(graph.maxConnectivity);
     connect(timer, SIGNAL(timeout()),this, SLOT(timerDraw()));
     connect(ui->randomLayoutButton, SIGNAL(clicked()), this, SLOT(onRandomLayoutClicked()));
     connect(ui->FmmmLayoutButton, SIGNAL(clicked()), this, SLOT(onFmmmLayoutClicked()));
     connect(ui->circleLayoutButton, SIGNAL(clicked()), this, SLOT(onCircleLayoutClicked()));
     connect(ui->formLayoutButton, SIGNAL(clicked()), this, SLOT(onFormLayoutClicked()));
+    connect(ui->NodeSelecter, SIGNAL(valueChanged(int)), this, SLOT(adjustconnectivity(int)));
+    connect(ui->nodeAdjust, SIGNAL(valueChanged(int)), this, SLOT(adjustNode(int)));
+    connect(ui->edgeAdjust, SIGNAL(valueChanged(int)), this, SLOT(adjustEdge(int)));
     connect(ui->resetView, SIGNAL(clicked()), this, SLOT(resetView()));
+    connect(ui->saveLayout, SIGNAL(clicked()), this, SLOT(saveLayout()));
+    connect(ui->loadLayout, SIGNAL(clicked()), this, SLOT(loadLayout()));
 }
 
 TopicWindow::~TopicWindow()
@@ -55,24 +64,28 @@ void TopicWindow::paintEvent(QPaintEvent *ev)
 {
     QPainter p(this);
     int line1_X, line2_X, line1_Y, line2_Y;
-    p.setPen(QColor(100, 100, 100));
-    p.setBrush(Qt::yellow);
     for(int i = 0; i < graph.undirectedEdges.size(); ++i)
     {
         line1_X = (graph.getNode(graph.undirectedEdges[i].node1).nowViewX - centerX) * zoomRate + centerX + shiftX;
         line1_Y = (graph.getNode(graph.undirectedEdges[i].node1).nowViewY - centerY) * zoomRate + centerY + shiftY;
         line2_X = (graph.getNode(graph.undirectedEdges[i].node2).nowViewX - centerX) * zoomRate + centerX + shiftX;
         line2_Y = (graph.getNode(graph.undirectedEdges[i].node2).nowViewY - centerY) * zoomRate + centerY + shiftY;
-        p.setPen(QColor(0, 0, 0, graph.undirectedEdges[i].weight * 200));
+        p.setPen(QPen(QColor(0, 0, 0, graph.undirectedEdges[i].weight * 255), edgeAdjust));
         p.drawLine(line1_X, line1_Y, line2_X, line2_Y);
     }
-    p.setBrush(Qt::red);
+    p.setPen(Qt::gray);
     int tmpX, tmpY;
     for(int i = 0; i < graph.topicNodes.size(); ++i)
     {
+        if(graph.topicNodes[i].connectivity >= minConnectivity)
+        {
+            p.setBrush(QColor(255, 0, 0, 255));
+        } else {
+            p.setBrush(QColor(255, 0, 0, 50));
+        }
         tmpX = (graph.topicNodes[i].nowViewX - centerX) * zoomRate + centerX + shiftX;
         tmpY = (graph.topicNodes[i].nowViewY - centerY) * zoomRate + centerY + shiftY;
-        p.drawEllipse(tmpX - 4, tmpY - 4, 8, 8);
+        p.drawEllipse(tmpX - nodeAdjust, tmpY - nodeAdjust, nodeAdjust * 2, nodeAdjust * 2);
     }
     p.setBrush(Qt::NoBrush);
     if(isGroupDraged)
@@ -89,17 +102,17 @@ void TopicWindow::paintEvent(QPaintEvent *ev)
         {
             tmpX = (graph.getNode(groupNodes[i]).nowViewX - centerX) * zoomRate + centerX + shiftX;
             tmpY = (graph.getNode(groupNodes[i]).nowViewY - centerY) * zoomRate + centerY + shiftY;
-            for(int i = 5; i <= 7; ++i)
+            for(int i = 1; i <= 3; ++i)
             {
-                p.drawEllipse(tmpX - i, tmpY - i, 2 * i, 2 * i);
+                p.drawEllipse(tmpX - nodeAdjust - i, tmpY - nodeAdjust - i, 2 * (i + nodeAdjust), 2 * (i + nodeAdjust));
             }
         }
     } else if(highLightId >= 0)
     {
         p.setPen(Qt::black);
-        for(int i = 5; i <= 7; ++i)
+        for(int i = 1; i <= 3; ++i)
         {
-            p.drawEllipse(highLightX - i, highLightY - i, 2 * i, 2 * i);
+            p.drawEllipse(highLightX - nodeAdjust - i, highLightY - nodeAdjust - i, 2 * (i + nodeAdjust), 2 * (i + nodeAdjust));
         }
     }
 }
@@ -421,4 +434,37 @@ void TopicWindow::resetView()
     zoomRate = 1.0;
     shiftX = 0;
     shiftY = 0;
+    nodeAdjust = 4;
+    edgeAdjust = 1;
+}
+
+void TopicWindow::adjustNode(int num)
+{
+    nodeAdjust = num;
+    this->update();
+}
+
+void TopicWindow::adjustEdge(int num)
+{
+    edgeAdjust = num;
+    this->update();
+}
+
+void TopicWindow::adjustconnectivity(int num)
+{
+    minConnectivity = num;
+    this->update();
+}
+
+void TopicWindow::saveLayout()
+{
+    graph.saveLayout();
+    update();
+}
+
+void TopicWindow::loadLayout()
+{
+    graph.loadLayout();
+    resetView();
+    update();
 }

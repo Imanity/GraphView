@@ -26,8 +26,11 @@ public:
     virtual void setRandom();
     virtual void setCircle();
     virtual void setForm();
+    virtual void getMaxConnectivity();
     QString getTopicWords(int nodeId);
     QString getTopicDocuments(int nodeId);
+    virtual void saveLayout();
+    virtual void loadLayout();
 };
 
 #endif // FTOPICGRAPH_H

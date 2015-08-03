@@ -2,6 +2,6 @@
 
 FGraph::FGraph()
 {
-
+    maxConnectivity = 0;
 }
 

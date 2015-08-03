@@ -2,6 +2,7 @@
 #define FGRAPH_H
 
 #include <ogdf/energybased/FMMMLayout.h>
+#include <ogdf/misclayout/BalloonLayout.h>
 #include <ogdf/basic/Graph.h>
 #include <ogdf/basic/GraphAttributes.h>
 #include "Node/fnode.h"
@@ -11,6 +12,7 @@ class FGraph
 {
 public:
     int nodeNum;
+    int maxConnectivity;
 public:
     FGraph();
     virtual void readFile() = 0;
@@ -22,6 +24,9 @@ public:
     virtual void setRandom() = 0;
     virtual void setCircle() = 0;
     virtual void setForm() = 0;
+    virtual void getMaxConnectivity() = 0;
+    virtual void saveLayout() = 0;
+    virtual void loadLayout() = 0;
 };
 
 #endif // FGRAPH_H

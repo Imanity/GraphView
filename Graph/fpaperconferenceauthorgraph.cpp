@@ -1,4 +1,5 @@
 #include <QFile>
+#include <QTextStream>
 #include <iostream>
 #include <ctime>
 #include <cmath>
@@ -210,6 +211,8 @@ void FPaperConferenceAuthorGraph::readFile()
         words = lineStr.split(" ");
         node1 = words[0].toInt();
         node2 = words[1].toInt();
+        getNode(node1).connectivity++;
+        getNode(node2).connectivity++;
         FDirectedEdge newEdge(node1, node2);
         graphView.newEdge(getOgdfId(node1), getOgdfId(node2));
         directedEdges.push_back(newEdge);
@@ -219,6 +222,7 @@ void FPaperConferenceAuthorGraph::readFile()
     getFmmmLayout();
     setCircle();
     setForm();
+    getMaxConnectivity();
 }
 
 node FPaperConferenceAuthorGraph::getOgdfId(int nodeId)
@@ -490,4 +494,98 @@ QString FPaperConferenceAuthorGraph::getId(int nodeId)
             return conferenceNodes[i].id;
         }
     }
+}
+
+void FPaperConferenceAuthorGraph::getMaxConnectivity()
+{
+    for(int i = 0; i < paperNodes.size(); ++i)
+    {
+        if(paperNodes[i].connectivity >= maxConnectivity)
+        {
+            maxConnectivity = paperNodes[i].connectivity;
+        }
+    }
+    for(int i = 0; i < authorNodes.size(); ++i)
+    {
+        if(authorNodes[i].connectivity >= maxConnectivity)
+        {
+            maxConnectivity = authorNodes[i].connectivity;
+        }
+    }
+    for(int i = 0; i < conferenceNodes.size(); ++i)
+    {
+        if(conferenceNodes[i].connectivity >= maxConnectivity)
+        {
+            maxConnectivity = conferenceNodes[i].connectivity;
+        }
+    }
+}
+
+void FPaperConferenceAuthorGraph::saveLayout()
+{
+    QString fileName;
+    if(ISWIN == 0) //Mac下文件读取
+    {
+        fileName = "/Users/imanity/Documents/Qt/GraphView/GraphData/PaperConferenceAuthorGraph/Layout.save";
+    } else { //Windows下文件读取
+        fileName = "E:/CppProjects/GraphView/GraphData/PaperConferenceAuthorGraph/Layout.save";
+    }
+    QFile outFile(fileName);
+    if(!outFile.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        cout << "Open failed." << endl;
+    }
+    QTextStream out(&outFile);
+    for(int i = 0; i < paperNodes.size(); ++i)
+    {
+        out << paperNodes[i].nowViewX << endl << paperNodes[i].nowViewY << endl;
+    }
+    for(int i = 0; i < authorNodes.size(); ++i)
+    {
+        out << authorNodes[i].nowViewX << endl << authorNodes[i].nowViewY << endl;
+    }
+    for(int i = 0; i < conferenceNodes.size(); ++i)
+    {
+        out << conferenceNodes[i].nowViewX << endl << conferenceNodes[i].nowViewY << endl;
+    }
+}
+
+void FPaperConferenceAuthorGraph::loadLayout()
+{
+    QString fileName;
+    if(ISWIN == 0) //Mac下文件读取
+    {
+        fileName = "/Users/imanity/Documents/Qt/GraphView/GraphData/PaperConferenceAuthorGraph/Layout.save";
+    } else { //Windows下文件读取
+        fileName = "E:/CppProjects/GraphView/GraphData/PaperConferenceAuthorGraph/Layout.save";
+    }
+    QFile inFile(fileName);
+    if(!inFile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        cout << "Open failed." << endl;
+    }
+    QTextStream in(&inFile);
+    QString line;
+    for(int i = 0; i < paperNodes.size(); ++i)
+    {
+        line = in.readLine().trimmed();
+        paperNodes[i].nowViewX = line.toDouble();
+        line = in.readLine().trimmed();
+        paperNodes[i].nowViewY = line.toDouble();
+    }
+    for(int i = 0; i < authorNodes.size(); ++i)
+    {
+        line = in.readLine().trimmed();
+        authorNodes[i].nowViewX = line.toDouble();
+        line = in.readLine().trimmed();
+        authorNodes[i].nowViewY = line.toDouble();
+    }
+    for(int i = 0; i < conferenceNodes.size(); ++i)
+    {
+        line = in.readLine().trimmed();
+        conferenceNodes[i].nowViewX = line.toDouble();
+        line = in.readLine().trimmed();
+        conferenceNodes[i].nowViewY = line.toDouble();
+    }
+    resetStatus();
 }

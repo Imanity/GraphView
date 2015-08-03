@@ -8,6 +8,9 @@ PaperConferenceAuthorWindow::PaperConferenceAuthorWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::PaperConferenceAuthorWindow)
 {
+    nodeAdjust = 4;
+    edgeAdjust = 1;
+    minConnectivity = 0;
     nowLayout = 1;
     timepast = 0;
     changeSpeed = 12.0;
@@ -38,13 +41,19 @@ PaperConferenceAuthorWindow::PaperConferenceAuthorWindow(QWidget *parent) :
     timer = new QTimer(this);
     ui->setupUi(this);
     graph.readFile();
+    ui->NodeSelecter->setMaximum(graph.maxConnectivity);
     connect(timer, SIGNAL(timeout()),this, SLOT(timerDraw()));
     connect(ui->initLayoutButton, SIGNAL(clicked()), this, SLOT(onInitLayoutClicked()));
     connect(ui->randomLayoutButton, SIGNAL(clicked()), this, SLOT(onRandomLayoutClicked()));
     connect(ui->FmmmLayoutButton, SIGNAL(clicked()), this, SLOT(onFmmmLayoutClicked()));
     connect(ui->circleLayoutButton, SIGNAL(clicked()), this, SLOT(onCircleLayoutClicked()));
     connect(ui->formLayoutButton, SIGNAL(clicked()), this, SLOT(onFormLayoutClicked()));
+    connect(ui->nodeAdjust, SIGNAL(valueChanged(int)), this, SLOT(adjustNode(int)));
+    connect(ui->edgeAdjust, SIGNAL(valueChanged(int)), this, SLOT(adjustEdge(int)));
+    connect(ui->NodeSelecter, SIGNAL(valueChanged(int)), this, SLOT(adjustconnectivity(int)));
     connect(ui->resetView, SIGNAL(clicked()), this, SLOT(resetView()));
+    connect(ui->saveLayout, SIGNAL(clicked()), this, SLOT(saveLayout()));
+    connect(ui->loadLayout, SIGNAL(clicked()), this, SLOT(loadLayout()));
 }
 
 PaperConferenceAuthorWindow::~PaperConferenceAuthorWindow()
@@ -56,8 +65,7 @@ void PaperConferenceAuthorWindow::paintEvent(QPaintEvent *ev)
 {
     QPainter p(this);
     int line1_X, line2_X, line1_Y, line2_Y;
-    p.setPen(QColor(100, 100, 100));
-    p.setBrush(Qt::yellow);
+    p.setPen(QPen(QColor(100, 100, 100), edgeAdjust));
     for(int i = 0; i < graph.directedEdges.size(); ++i)
     {
         line1_X = (graph.getNode(graph.directedEdges[i].node1).nowViewX - centerX) * zoomRate + centerX + shiftX;
@@ -66,26 +74,43 @@ void PaperConferenceAuthorWindow::paintEvent(QPaintEvent *ev)
         line2_Y = (graph.getNode(graph.directedEdges[i].node2).nowViewY - centerY) * zoomRate + centerY + shiftY;
         p.drawLine(line1_X, line1_Y, line2_X, line2_Y);
     }
+    p.setPen(Qt::gray);
     int tmpX, tmpY;
     for(int i = 0; i < graph.paperNodes.size(); ++i)
     {
+        if(graph.paperNodes[i].connectivity >= minConnectivity)
+        {
+            p.setBrush(QColor(255, 255, 0, 255));
+        } else {
+            p.setBrush(QColor(255, 255, 0, 50));
+        }
         tmpX = (graph.paperNodes[i].nowViewX - centerX) * zoomRate + centerX + shiftX;
         tmpY = (graph.paperNodes[i].nowViewY - centerY) * zoomRate + centerY + shiftY;
-        p.drawEllipse(tmpX - 4, tmpY - 4, 8, 8);
+        p.drawEllipse(tmpX - nodeAdjust, tmpY - nodeAdjust, nodeAdjust * 2, nodeAdjust * 2);
     }
-    p.setBrush(Qt::red);
     for(int i = 0; i < graph.authorNodes.size(); ++i)
     {
+        if(graph.authorNodes[i].connectivity >= minConnectivity)
+        {
+            p.setBrush(QColor(255, 0, 0, 255));
+        } else {
+            p.setBrush(QColor(255, 0, 0, 50));
+        }
         tmpX = (graph.authorNodes[i].nowViewX - centerX) * zoomRate + centerX + shiftX;
         tmpY = (graph.authorNodes[i].nowViewY - centerY) * zoomRate + centerY + shiftY;
-        p.drawEllipse(tmpX - 4, tmpY - 4, 8, 8);
+        p.drawEllipse(tmpX - nodeAdjust, tmpY - nodeAdjust, nodeAdjust * 2, nodeAdjust * 2);
     }
-    p.setBrush(Qt::green);
     for(int i = 0; i < graph.conferenceNodes.size(); ++i)
     {
+        if(graph.conferenceNodes[i].connectivity >= minConnectivity)
+        {
+            p.setBrush(QColor(0, 255, 0, 255));
+        } else {
+            p.setBrush(QColor(0, 255, 0, 50));
+        }
         tmpX = (graph.conferenceNodes[i].nowViewX - centerX) * zoomRate + centerX + shiftX;
         tmpY = (graph.conferenceNodes[i].nowViewY - centerY) * zoomRate + centerY + shiftY;
-        p.drawEllipse(tmpX - 4, tmpY - 4, 8, 8);
+        p.drawEllipse(tmpX - nodeAdjust, tmpY - nodeAdjust, nodeAdjust * 2, nodeAdjust * 2);
     }
     p.setBrush(Qt::NoBrush);
     if(isGroupDraged)
@@ -102,17 +127,17 @@ void PaperConferenceAuthorWindow::paintEvent(QPaintEvent *ev)
         {
             tmpX = (graph.getNode(groupNodes[i]).nowViewX - centerX) * zoomRate + centerX + shiftX;
             tmpY = (graph.getNode(groupNodes[i]).nowViewY - centerY) * zoomRate + centerY + shiftY;
-            for(int i = 5; i <= 7; ++i)
+            for(int i = 1; i <= 3; ++i)
             {
-                p.drawEllipse(tmpX - i, tmpY - i, 2 * i, 2 * i);
+                p.drawEllipse(tmpX - nodeAdjust - i, tmpY - nodeAdjust - i, 2 * (i + nodeAdjust), 2 * (i + nodeAdjust));
             }
         }
     } else if(highLightId >= 0)
     {
         p.setPen(Qt::black);
-        for(int i = 5; i <= 7; ++i)
+        for(int i = 1; i <= 3; ++i)
         {
-            p.drawEllipse(highLightX - i, highLightY - i, 2 * i, 2 * i);
+            p.drawEllipse(highLightX - nodeAdjust - i, highLightY - nodeAdjust - i, 2 * (i + nodeAdjust), 2 * (i + nodeAdjust));
         }
     }
 }
@@ -550,4 +575,37 @@ void PaperConferenceAuthorWindow::resetView()
     zoomRate = 1.0;
     shiftX = 0;
     shiftY = 0;
+    nodeAdjust = 4;
+    edgeAdjust = 1;
+}
+
+void PaperConferenceAuthorWindow::adjustNode(int num)
+{
+    nodeAdjust = num;
+    this->update();
+}
+
+void PaperConferenceAuthorWindow::adjustEdge(int num)
+{
+    edgeAdjust = num;
+    this->update();
+}
+
+void PaperConferenceAuthorWindow::adjustconnectivity(int num)
+{
+    minConnectivity = num;
+    this->update();
+}
+
+void PaperConferenceAuthorWindow::saveLayout()
+{
+    graph.saveLayout();
+    update();
+}
+
+void PaperConferenceAuthorWindow::loadLayout()
+{
+    graph.loadLayout();
+    resetView();
+    update();
 }
