@@ -71,8 +71,8 @@ FORMS    += \
     mainwindow.ui
 
 win32 {
-    LIBS += "D:/Program Files/OGDF/x64/Debug/ogdf.lib"
-    LIBS += "D:/Program Files/OGDF/x64/Debug/coin.lib"
+    LIBS += "D:/Program Files/OGDF/x64/Release/ogdf.lib"
+    LIBS += "D:/Program Files/OGDF/x64/Release/coin.lib"
     INCLUDEPATH += "D:/Program Files/OGDF/include"
 }
 
