@@ -44,6 +44,7 @@ PaperConferenceAuthorWindow::PaperConferenceAuthorWindow(QWidget *parent) :
     timer = new QTimer(this);
     theme = 0;
     language = 0;
+    isOncePressed = false;
     ui->setupUi(this);
     graph.readFile();
     ui->NodeSelecter->setMaximum(graph.maxConnectivity);
@@ -52,6 +53,7 @@ PaperConferenceAuthorWindow::PaperConferenceAuthorWindow(QWidget *parent) :
     ui->theme->addItem("Dark");
     ui->language->addItem("中文");
     ui->language->addItem("English");
+    saveOperation();
     connect(timer, SIGNAL(timeout()),this, SLOT(timerDraw()));
     connect(ui->initLayoutButton, SIGNAL(clicked()), this, SLOT(onInitLayoutClicked()));
     connect(ui->randomLayoutButton, SIGNAL(clicked()), this, SLOT(onRandomLayoutClicked()));
@@ -189,6 +191,13 @@ bool PaperConferenceAuthorWindow::event(QEvent *event)
             ui->status->setText(view.dragStatus[language]);
             isCtrled = true;
         }
+        if(keyEvent->key() == Qt::Key_Z)
+        {
+            if(isCtrled)
+            {
+                loadOperation();
+            }
+        }
     } else if(event->type() == QEvent::KeyRelease)
     {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
@@ -254,6 +263,11 @@ void PaperConferenceAuthorWindow::mouseMoveEvent(QMouseEvent* event)
 
 void PaperConferenceAuthorWindow::mousePressEvent(QMouseEvent *event)
 {
+    if(!isOncePressed)
+    {
+        saveOperation();
+    }
+    isOncePressed = true;
     pressX = event->pos().x();
     pressY = event->pos().y();
     if(isCtrled)
@@ -299,6 +313,8 @@ void PaperConferenceAuthorWindow::mouseReleaseEvent(QMouseEvent *event)
                 setAuthorNode(highLightId);
             }
         }
+    } else {
+        isOncePressed = false;
     }
     if(isGroupDraged)
     {
@@ -712,4 +728,48 @@ void PaperConferenceAuthorWindow::setLanguage(int language)
     ui->loadLayout->setText(view.Button2[language]);
     ui->resetView->setText(view.Button3[language]);
     update();
+}
+
+void PaperConferenceAuthorWindow::saveOperation()
+{
+    operationX.clear();
+    operationY.clear();
+    for(int i = 0; i < graph.paperNodes.size(); ++i)
+    {
+        operationX.push_back(graph.paperNodes[i].nowViewX);
+        operationY.push_back(graph.paperNodes[i].nowViewY);
+    }
+    for(int i = 0; i < graph.authorNodes.size(); ++i)
+    {
+        operationX.push_back(graph.authorNodes[i].nowViewX);
+        operationY.push_back(graph.authorNodes[i].nowViewY);
+    }
+    for(int i = 0; i < graph.conferenceNodes.size(); ++i)
+    {
+        operationX.push_back(graph.conferenceNodes[i].nowViewX);
+        operationY.push_back(graph.conferenceNodes[i].nowViewY);
+    }
+}
+
+void PaperConferenceAuthorWindow::loadOperation()
+{
+    int num1 = 0, num2 = 0;
+    for(int i = 0; i < graph.paperNodes.size(); ++i)
+    {
+        graph.paperNodes[i].nowViewX = operationX[i];
+        graph.paperNodes[i].nowViewY = operationY[i];
+        num1++;
+        num2++;
+    }
+    for(int i = 0; i < graph.authorNodes.size(); ++i)
+    {
+        graph.authorNodes[i].nowViewX = operationX[i + num1];
+        graph.authorNodes[i].nowViewY = operationY[i + num1];
+        num2++;
+    }
+    for(int i = 0; i < graph.conferenceNodes.size(); ++i)
+    {
+        graph.conferenceNodes[i].nowViewX = operationX[i + num2];
+        graph.conferenceNodes[i].nowViewY = operationY[i + num2];
+    }
 }

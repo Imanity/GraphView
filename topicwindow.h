@@ -41,6 +41,9 @@ private:
     int theme;
     int language;
     ViewConst view;
+    vector<double> operationX;
+    vector<double> operationY;
+    bool isOncePressed;
 
 public:
     FTopicGraph graph;
@@ -59,6 +62,8 @@ private:
     void getGroupNodes();
     void resetGroupMove();
     void setTopicNode(int nodeId);
+    void saveOperation();
+    void loadOperation();
 
 public slots:
     void onRandomLayoutClicked();

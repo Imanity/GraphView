@@ -41,6 +41,9 @@ private:
     int theme;
     int language;
     ViewConst view;
+    vector<double> operationX;
+    vector<double> operationY;
+    bool isOncePressed;
 
 public:
     FPaperConferenceAuthorGraph graph;
@@ -61,6 +64,8 @@ private:
     void setPaperNode(int nodeId);
     void setConferenceNode(int nodeId);
     void setAuthorNode(int nodeId);
+    void saveOperation();
+    void loadOperation();
 
 public slots:
     void onInitLayoutClicked();

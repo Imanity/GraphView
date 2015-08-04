@@ -264,7 +264,11 @@
               </widget>
              </item>
              <item>
-              <widget class="QComboBox" name="theme"/>
+              <widget class="QComboBox" name="theme">
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -278,7 +282,11 @@
               </widget>
              </item>
              <item>
-              <widget class="QComboBox" name="language"/>
+              <widget class="QComboBox" name="language">
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>

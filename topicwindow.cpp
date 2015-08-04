@@ -42,6 +42,7 @@ TopicWindow::TopicWindow(QWidget *parent) :
     timer = new QTimer(this);
     theme = 0;
     language = 0;
+    isOncePressed = false;
     ui->setupUi(this);
     graph.readFile();
     ui->NodeSelecter->setMaximum(graph.maxConnectivity);
@@ -50,6 +51,7 @@ TopicWindow::TopicWindow(QWidget *parent) :
     ui->theme->addItem("Dark");
     ui->language->addItem("中文");
     ui->language->addItem("English");
+    saveOperation();
     connect(timer, SIGNAL(timeout()),this, SLOT(timerDraw()));
     connect(ui->randomLayoutButton, SIGNAL(clicked()), this, SLOT(onRandomLayoutClicked()));
     connect(ui->FmmmLayoutButton, SIGNAL(clicked()), this, SLOT(onFmmmLayoutClicked()));
@@ -162,6 +164,13 @@ bool TopicWindow::event(QEvent *event)
             ui->status->setText(view.dragStatus[language]);
             isCtrled = true;
         }
+        if(keyEvent->key() == Qt::Key_Z)
+        {
+            if(isCtrled)
+            {
+                loadOperation();
+            }
+        }
     } else if(event->type() == QEvent::KeyRelease)
     {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
@@ -222,6 +231,11 @@ void TopicWindow::mouseMoveEvent(QMouseEvent* event)
 
 void TopicWindow::mousePressEvent(QMouseEvent *event)
 {
+    if(!isOncePressed)
+    {
+        saveOperation();
+    }
+    isOncePressed = true;
     pressX = event->pos().x();
     pressY = event->pos().y();
     if(isCtrled)
@@ -258,6 +272,8 @@ void TopicWindow::mouseReleaseEvent(QMouseEvent *event)
             setTopicNode(highLightId);
         }
         isDisplayGroup = false;
+    } else {
+        isOncePressed = false;
     }
     if(isGroupDraged)
     {
@@ -532,4 +548,24 @@ void TopicWindow::setLanguage(int language)
     ui->loadLayout->setText(view.Button2[language]);
     ui->resetView->setText(view.Button3[language]);
     update();
+}
+
+void TopicWindow::saveOperation()
+{
+    operationX.clear();
+    operationY.clear();
+    for(int i = 0; i < graph.topicNodes.size(); ++i)
+    {
+        operationX.push_back(graph.topicNodes[i].nowViewX);
+        operationY.push_back(graph.topicNodes[i].nowViewY);
+    }
+}
+
+void TopicWindow::loadOperation()
+{
+    for(int i = 0; i < graph.topicNodes.size(); ++i)
+    {
+        graph.topicNodes[i].nowViewX = operationX[i];
+        graph.topicNodes[i].nowViewY = operationY[i];
+    }
 }
