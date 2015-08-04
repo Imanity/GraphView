@@ -28,6 +28,7 @@ public:
     QString Button1[2];
     QString Button2[2];
     QString Button3[2];
+    QString Button4[2];
 public:
     ViewConst();
 };

@@ -342,7 +342,7 @@
         <property name="title">
          <string>Node信息</string>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0">
+        <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0">
          <item>
           <widget class="QLabel" name="nodeId">
            <property name="text">
@@ -366,6 +366,16 @@
            </property>
            <property name="acceptDrops">
             <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="edgeBundlingButton">
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="text">
+            <string>显示边束化效果</string>
            </property>
           </widget>
          </item>

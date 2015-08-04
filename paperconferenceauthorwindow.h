@@ -5,6 +5,7 @@
 #include <QTimer>
 #include "Graph/fpaperconferenceauthorgraph.h"
 #include "viewconst.h"
+#include "forcebundle.h"
 
 namespace Ui {
 class PaperConferenceAuthorWindow;
@@ -47,6 +48,7 @@ private:
 
 public:
     FPaperConferenceAuthorGraph graph;
+    Forcebundle EdgeBundlingView;
     explicit PaperConferenceAuthorWindow(QWidget *parent = 0);
     ~PaperConferenceAuthorWindow();
 
@@ -66,6 +68,7 @@ private:
     void setAuthorNode(int nodeId);
     void saveOperation();
     void loadOperation();
+    void getEdgeBundling();
 
 public slots:
     void onInitLayoutClicked();
@@ -82,6 +85,7 @@ public slots:
     void saveLayout();
     void setTheme(int theme);
     void setLanguage(int language);
+    void showEdgeBundling();
 };
 
 #endif // PAPERCONFERENCEAUTHORWINDOW_H

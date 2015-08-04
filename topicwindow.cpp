@@ -4,6 +4,7 @@
 #include "topicwindow.h"
 #include "ui_topicwindow.h"
 #include "topicdialog.h"
+#include "mainwindow.h"
 
 TopicWindow::TopicWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -65,6 +66,7 @@ TopicWindow::TopicWindow(QWidget *parent) :
     connect(ui->loadLayout, SIGNAL(clicked()), this, SLOT(loadLayout()));
     connect(ui->theme, SIGNAL(currentIndexChanged(int)), this, SLOT(setTheme(int)));
     connect(ui->language, SIGNAL(currentIndexChanged(int)), this, SLOT(setLanguage(int)));
+    connect(ui->edgeBundlingButton, SIGNAL(clicked()), this, SLOT(showEdgeBundling()));
 }
 
 TopicWindow::~TopicWindow()
@@ -547,6 +549,7 @@ void TopicWindow::setLanguage(int language)
     ui->saveLayout->setText(view.Button1[language]);
     ui->loadLayout->setText(view.Button2[language]);
     ui->resetView->setText(view.Button3[language]);
+    ui->edgeBundlingButton->setText(view.Button4[language]);
     update();
 }
 
@@ -568,4 +571,46 @@ void TopicWindow::loadOperation()
         graph.topicNodes[i].nowViewX = operationX[i];
         graph.topicNodes[i].nowViewY = operationY[i];
     }
+}
+
+void TopicWindow::getEdgeBundling()
+{
+    vector<Point> nodes;
+    vector<Edge> edges;
+    for(int i = 0; i < graph.topicNodes.size(); ++i)
+    {
+        Point newNode;
+        newNode.X = graph.topicNodes[i].nowViewX;
+        newNode.Y = graph.topicNodes[i].nowViewY;
+        nodes.push_back(newNode);
+    }
+    for(int i = 0; i < graph.undirectedEdges.size(); ++i)
+    {
+        Edge newEdge;
+        for(int j = 0; j < graph.topicNodes.size(); ++j)
+        {
+            if(graph.topicNodes[j].nodeId == graph.undirectedEdges[i].node1)
+            {
+                newEdge.source = j;
+            }
+        }
+        for(int j = 0; j < graph.topicNodes.size(); ++j)
+        {
+            if(graph.topicNodes[j].nodeId == graph.undirectedEdges[i].node2)
+            {
+                newEdge.target = j;
+            }
+        }
+        edges.push_back(newEdge);
+    }
+    EdgeBundlingView = Forcebundle(nodes, edges);
+    EdgeBundlingView.forcebundle();
+}
+
+void TopicWindow::showEdgeBundling()
+{
+    getEdgeBundling();
+    MainWindow* window = new MainWindow();
+    window->view = EdgeBundlingView;
+    window->show();
 }

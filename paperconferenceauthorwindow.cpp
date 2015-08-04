@@ -6,6 +6,7 @@
 #include "paperdialog.h"
 #include "conferencedialog.h"
 #include "authordialog.h"
+#include "mainwindow.h"
 
 PaperConferenceAuthorWindow::PaperConferenceAuthorWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -68,6 +69,7 @@ PaperConferenceAuthorWindow::PaperConferenceAuthorWindow(QWidget *parent) :
     connect(ui->loadLayout, SIGNAL(clicked()), this, SLOT(loadLayout()));
     connect(ui->theme, SIGNAL(currentIndexChanged(int)), this, SLOT(setTheme(int)));
     connect(ui->language, SIGNAL(currentIndexChanged(int)), this, SLOT(setLanguage(int)));
+    connect(ui->edgeBundlingButton, SIGNAL(clicked()), this, SLOT(showEdgeBundling()));
 }
 
 PaperConferenceAuthorWindow::~PaperConferenceAuthorWindow()
@@ -727,6 +729,7 @@ void PaperConferenceAuthorWindow::setLanguage(int language)
     ui->saveLayout->setText(view.Button1[language]);
     ui->loadLayout->setText(view.Button2[language]);
     ui->resetView->setText(view.Button3[language]);
+    ui->edgeBundlingButton->setText(view.Button4[language]);
     update();
 }
 
@@ -772,4 +775,88 @@ void PaperConferenceAuthorWindow::loadOperation()
         graph.conferenceNodes[i].nowViewX = operationX[i + num2];
         graph.conferenceNodes[i].nowViewY = operationY[i + num2];
     }
+}
+
+void PaperConferenceAuthorWindow::getEdgeBundling()
+{
+    vector<Point> nodes;
+    vector<Edge> edges;
+    for(int i = 0; i < graph.paperNodes.size(); ++i)
+    {
+        Point newNode;
+        newNode.X = graph.paperNodes[i].nowViewX;
+        newNode.Y = graph.paperNodes[i].nowViewY;
+        nodes.push_back(newNode);
+    }
+    for(int i = 0; i < graph.authorNodes.size(); ++i)
+    {
+        Point newNode;
+        newNode.X = graph.authorNodes[i].nowViewX;
+        newNode.Y = graph.authorNodes[i].nowViewY;
+        nodes.push_back(newNode);
+    }
+    for(int i = 0; i < graph.conferenceNodes.size(); ++i)
+    {
+        Point newNode;
+        newNode.X = graph.conferenceNodes[i].nowViewX;
+        newNode.Y = graph.conferenceNodes[i].nowViewY;
+        nodes.push_back(newNode);
+    }
+    for(int i = 0; i < graph.directedEdges.size(); ++i)
+    {
+        Edge newEdge;
+        for(int j = 0; j < graph.paperNodes.size(); ++j)
+        {
+            if(graph.paperNodes[j].nodeId == graph.directedEdges[i].node1)
+            {
+                newEdge.source = j;
+            }
+        }
+        for(int j = 0; j < graph.authorNodes.size(); ++j)
+        {
+            if(graph.authorNodes[j].nodeId == graph.directedEdges[i].node1)
+            {
+                newEdge.source = j + graph.paperNodes.size();
+            }
+        }
+        for(int j = 0; j < graph.conferenceNodes.size(); ++j)
+        {
+            if(graph.conferenceNodes[j].nodeId == graph.directedEdges[i].node1)
+            {
+                newEdge.source = j + graph.paperNodes.size() + graph.authorNodes.size();
+            }
+        }
+        for(int j = 0; j < graph.paperNodes.size(); ++j)
+        {
+            if(graph.paperNodes[j].nodeId == graph.directedEdges[i].node2)
+            {
+                newEdge.target = j;
+            }
+        }
+        for(int j = 0; j < graph.authorNodes.size(); ++j)
+        {
+            if(graph.authorNodes[j].nodeId == graph.directedEdges[i].node2)
+            {
+                newEdge.target = j + graph.paperNodes.size();
+            }
+        }
+        for(int j = 0; j < graph.conferenceNodes.size(); ++j)
+        {
+            if(graph.conferenceNodes[j].nodeId == graph.directedEdges[i].node2)
+            {
+                newEdge.target = j + graph.paperNodes.size() + graph.authorNodes.size();
+            }
+        }
+        edges.push_back(newEdge);
+    }
+    EdgeBundlingView = Forcebundle(nodes, edges);
+    EdgeBundlingView.forcebundle();
+}
+
+void PaperConferenceAuthorWindow::showEdgeBundling()
+{
+    getEdgeBundling();
+    MainWindow* window = new MainWindow();
+    window->view = EdgeBundlingView;
+    window->show();
 }

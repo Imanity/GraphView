@@ -43,5 +43,7 @@ ViewConst::ViewConst()
     Button2[0] = QStringLiteral("读取布局");
     Button2[1] = "Load Layout";
     Button3[0] = QStringLiteral("恢复视图");
-    Button3[1] = "recover Layout";
+    Button3[1] = "Recover Layout";
+    Button4[0] = QStringLiteral("显示边束化效果");
+    Button4[1] = "Show Edge Bundling";
 }

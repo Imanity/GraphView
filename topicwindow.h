@@ -5,6 +5,7 @@
 #include <QTimer>
 #include "Graph/ftopicgraph.h"
 #include "viewconst.h"
+#include "forcebundle.h"
 
 namespace Ui {
 class TopicWindow;
@@ -47,6 +48,7 @@ private:
 
 public:
     FTopicGraph graph;
+    Forcebundle EdgeBundlingView;
     explicit TopicWindow(QWidget *parent = 0);
     ~TopicWindow();
 
@@ -64,6 +66,7 @@ private:
     void setTopicNode(int nodeId);
     void saveOperation();
     void loadOperation();
+    void getEdgeBundling();
 
 public slots:
     void onRandomLayoutClicked();
@@ -79,6 +82,7 @@ public slots:
     void saveLayout();
     void setTheme(int theme);
     void setLanguage(int language);
+    void showEdgeBundling();
 };
 
 #endif // TOPICWINDOW_H

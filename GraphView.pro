@@ -32,7 +32,8 @@ SOURCES += main.cpp \
     conferencedialog.cpp \
     authordialog.cpp \
     topicdialog.cpp \
-    viewconst.cpp
+    viewconst.cpp \
+    mainwindow.cpp
 
 HEADERS  += \
     Graph/fgraph.h \
@@ -54,7 +55,9 @@ HEADERS  += \
     conferencedialog.h \
     authordialog.h \
     topicdialog.h \
-    viewconst.h
+    viewconst.h \
+    forcebundle.h \
+    mainwindow.h
 
 FORMS    += \
     paperconferenceauthorwindow.ui \
@@ -64,7 +67,8 @@ FORMS    += \
     paperdialog.ui \
     conferencedialog.ui \
     authordialog.ui \
-    topicdialog.ui
+    topicdialog.ui \
+    mainwindow.ui
 
 win32 {
     LIBS += "D:/Program Files/OGDF/x64/Debug/ogdf.lib"
