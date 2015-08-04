@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QTimer>
 #include "Graph/fpaperconferenceauthorgraph.h"
+#include "viewconst.h"
 
 namespace Ui {
 class PaperConferenceAuthorWindow;
@@ -37,6 +38,9 @@ private:
     vector<double> groupNodesTmpY;
     bool isDisplayGroup;
     double highLightX, highLightY, highLightId;
+    int theme;
+    int language;
+    ViewConst view;
 
 public:
     FPaperConferenceAuthorGraph graph;
@@ -71,6 +75,8 @@ public slots:
     void adjustconnectivity(int num);
     void loadLayout();
     void saveLayout();
+    void setTheme(int theme);
+    void setLanguage(int language);
 };
 
 #endif // PAPERCONFERENCEAUTHORWINDOW_H

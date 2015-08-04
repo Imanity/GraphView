@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>authorDialog</class>
- <widget class="QDialog" name="authorDialog">
+ <class>topicDialog</class>
+ <widget class="QDialog" name="topicDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>290</width>
-    <height>302</height>
+    <width>311</width>
+    <height>336</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>AuthorInfo</string>
+   <string>topicInfo</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>260</y>
-     <width>261</width>
+     <y>290</y>
+     <width>271</width>
      <height>32</height>
     </rect>
    </property>
@@ -34,21 +34,15 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>271</width>
-     <height>241</height>
+     <width>291</width>
+     <height>271</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QLabel" name="label">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
       <property name="text">
-       <string>&lt;b&gt;Author:&lt;/b&gt;</string>
+       <string>&lt;b&gt;Topic:&lt;/b&gt;</string>
       </property>
      </widget>
     </item>
@@ -57,54 +51,33 @@
       <item>
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>year:</string>
+         <string>TopicWords:</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="year"/>
+       <widget class="QTextEdit" name="topicWords">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>id:</string>
+         <string>TopicDocuments:</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="id"/>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_4">
-      <item>
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>authorName:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="authorName"/>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_5">
-      <item>
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>authorNameShort:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="authorNameShort"/>
+       <widget class="QTextEdit" name="topicDocuments"/>
       </item>
      </layout>
     </item>
@@ -116,7 +89,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>authorDialog</receiver>
+   <receiver>topicDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -132,7 +105,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>authorDialog</receiver>
+   <receiver>topicDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

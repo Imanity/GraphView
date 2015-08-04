@@ -42,10 +42,16 @@ PaperConferenceAuthorWindow::PaperConferenceAuthorWindow(QWidget *parent) :
     mouseX = QCursor::pos().x();
     mouseY = QCursor::pos().y();
     timer = new QTimer(this);
+    theme = 0;
+    language = 0;
     ui->setupUi(this);
     graph.readFile();
     ui->NodeSelecter->setMaximum(graph.maxConnectivity);
-    ui->status->setText("Press Ctrl to activate extra function");
+    ui->status->setText(view.status[language]);
+    ui->theme->addItem("Light");
+    ui->theme->addItem("Dark");
+    ui->language->addItem("中文");
+    ui->language->addItem("English");
     connect(timer, SIGNAL(timeout()),this, SLOT(timerDraw()));
     connect(ui->initLayoutButton, SIGNAL(clicked()), this, SLOT(onInitLayoutClicked()));
     connect(ui->randomLayoutButton, SIGNAL(clicked()), this, SLOT(onRandomLayoutClicked()));
@@ -58,6 +64,8 @@ PaperConferenceAuthorWindow::PaperConferenceAuthorWindow(QWidget *parent) :
     connect(ui->resetView, SIGNAL(clicked()), this, SLOT(resetView()));
     connect(ui->saveLayout, SIGNAL(clicked()), this, SLOT(saveLayout()));
     connect(ui->loadLayout, SIGNAL(clicked()), this, SLOT(loadLayout()));
+    connect(ui->theme, SIGNAL(currentIndexChanged(int)), this, SLOT(setTheme(int)));
+    connect(ui->language, SIGNAL(currentIndexChanged(int)), this, SLOT(setLanguage(int)));
 }
 
 PaperConferenceAuthorWindow::~PaperConferenceAuthorWindow()
@@ -69,7 +77,8 @@ void PaperConferenceAuthorWindow::paintEvent(QPaintEvent *ev)
 {
     QPainter p(this);
     int line1_X, line2_X, line1_Y, line2_Y;
-    p.setPen(QPen(QColor(100, 100, 100), edgeAdjust));
+    p.setPen(QPen(QColor(view.directedEdgeColor[theme].red(), view.directedEdgeColor[theme].green(),
+                         view.directedEdgeColor[theme].blue(), 150), edgeAdjust));
     for(int i = 0; i < graph.directedEdges.size(); ++i)
     {
         line1_X = (graph.getNode(graph.directedEdges[i].node1).nowViewX - centerX) * zoomRate + centerX + shiftX;
@@ -177,7 +186,7 @@ bool PaperConferenceAuthorWindow::event(QEvent *event)
         }
         if(keyEvent->key() == Qt::Key_Control)
         {
-            ui->status->setText("Drag to select nodes. Press the node to edit it.");
+            ui->status->setText(view.dragStatus[language]);
             isCtrled = true;
         }
     } else if(event->type() == QEvent::KeyRelease)
@@ -185,7 +194,7 @@ bool PaperConferenceAuthorWindow::event(QEvent *event)
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
         if(keyEvent->key() == Qt::Key_Control)
         {
-            ui->status->setText("Press Ctrl to activate extra function");
+            ui->status->setText(view.status[language]);
             isCtrled = false;
         }
     }
@@ -663,4 +672,44 @@ void PaperConferenceAuthorWindow::setAuthorNode(int nodeId)
     dialog->authorNameShort = graph.getAuthorNameShort(nodeId);
     dialog->refresh();
     dialog->exec();
+}
+
+void PaperConferenceAuthorWindow::setTheme(int theme)
+{
+    this->theme = theme;
+    QPalette background= this->palette();
+    background.setColor(QPalette::Window, view.backGroundColor[theme]);
+    this->setPalette(background);
+    QPalette group1= ui->groupBox1->palette();
+    group1.setColor(QPalette::WindowText, view.labelColor[theme]);
+    ui->groupBox1->setPalette(group1);
+    QPalette group2= ui->groupBox1->palette();
+    group2.setColor(QPalette::WindowText, view.labelColor[theme]);
+    ui->groupBox2->setPalette(group2);
+    QPalette group3= ui->groupBox1->palette();
+    group3.setColor(QPalette::WindowText, view.labelColor[theme]);
+    ui->groupBox3->setPalette(group3);
+    update();
+}
+
+void PaperConferenceAuthorWindow::setLanguage(int language)
+{
+    this->language = language;
+    ui->status->setText(view.status[language]);
+    ui->label1->setText(view.label1[language]);
+    ui->label2->setText(view.label2[language]);
+    ui->label3->setText(view.label3[language]);
+    ui->label4->setText(view.label4[language]);
+    ui->label5->setText(view.label5[language]);
+    ui->groupBox1->setTitle(view.group1[language]);
+    ui->groupBox2->setTitle(view.group2[language]);
+    ui->groupBox3->setTitle(view.group3[language]);
+    ui->randomLayoutButton->setText(view.Radio1[language]);
+    ui->circleLayoutButton->setText(view.Radio2[language]);
+    ui->formLayoutButton->setText(view.Radio3[language]);
+    ui->initLayoutButton->setText(view.Radio4[language]);
+    ui->saveLayout->setText(view.Button1[language]);
+    ui->loadLayout->setText(view.Button2[language]);
+    ui->resetView->setText(view.Button3[language]);
+    update();
 }

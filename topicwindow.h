@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QTimer>
 #include "Graph/ftopicgraph.h"
+#include "viewconst.h"
 
 namespace Ui {
 class TopicWindow;
@@ -37,6 +38,9 @@ private:
     vector<double> groupNodesTmpY;
     bool isDisplayGroup;
     double highLightX, highLightY, highLightId;
+    int theme;
+    int language;
+    ViewConst view;
 
 public:
     FTopicGraph graph;
@@ -54,6 +58,7 @@ private:
     void getHighLight();
     void getGroupNodes();
     void resetGroupMove();
+    void setTopicNode(int nodeId);
 
 public slots:
     void onRandomLayoutClicked();
@@ -67,6 +72,8 @@ public slots:
     void adjustconnectivity(int num);
     void loadLayout();
     void saveLayout();
+    void setTheme(int theme);
+    void setLanguage(int language);
 };
 
 #endif // TOPICWINDOW_H
