@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <fstream>
+#include <cmath>
 
 #define max(a,b)  (((a) > (b)) ? (a) : (b))
 #define min(a,b)  (((a) < (b)) ? (a) : (b))
