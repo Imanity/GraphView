@@ -30,9 +30,9 @@ void FPaperConferenceAuthorGraph::readFile()
     QString fileName;
     if(ISWIN == 0) //Mac下文件读取
     {
-        fileName = "/Users/imanity/Documents/Qt/GraphView/GraphData/PaperConferenceAuthorGraph/Nodes.txt";
+        fileName = "./GraphData/PaperConferenceAuthorGraph/Nodes.txt";
     } else { //Windows下文件读取
-        fileName = "E:/CppProjects/GraphView/GraphData/PaperConferenceAuthorGraph/Nodes.txt";
+        fileName = "./GraphData/PaperConferenceAuthorGraph/Nodes.txt";
     }
     QFile inFile(fileName);
     if(!inFile.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -195,9 +195,9 @@ void FPaperConferenceAuthorGraph::readFile()
     //读取边信息
     if(ISWIN == 0) //Mac下文件读取
     {
-        fileName = "/Users/imanity/Documents/Qt/GraphView/GraphData/PaperConferenceAuthorGraph/Edges.txt";
+        fileName = "./GraphData/PaperConferenceAuthorGraph/Edges.txt";
     } else { //Windows下文件读取
-        fileName = "E:/CppProjects/GraphView/GraphData/PaperConferenceAuthorGraph/Edges.txt";
+        fileName = "./GraphData/PaperConferenceAuthorGraph/Edges.txt";
     }
     QFile inFile2(fileName);
     if(!inFile2.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -625,9 +625,9 @@ void FPaperConferenceAuthorGraph::saveLayout()
     QString fileName;
     if(ISWIN == 0) //Mac下文件读取
     {
-        fileName = "/Users/imanity/Documents/Qt/GraphView/GraphData/PaperConferenceAuthorGraph/Layout.save";
+        fileName = "./GraphData/PaperConferenceAuthorGraph/Layout.save";
     } else { //Windows下文件读取
-        fileName = "E:/CppProjects/GraphView/GraphData/PaperConferenceAuthorGraph/Layout.save";
+        fileName = "./GraphData/PaperConferenceAuthorGraph/Layout.save";
     }
     QFile outFile(fileName);
     if(!outFile.open(QIODevice::WriteOnly | QIODevice::Text))
@@ -654,9 +654,9 @@ void FPaperConferenceAuthorGraph::loadLayout()
     QString fileName;
     if(ISWIN == 0) //Mac下文件读取
     {
-        fileName = "/Users/imanity/Documents/Qt/GraphView/GraphData/PaperConferenceAuthorGraph/Layout.save";
+        fileName = "./GraphData/PaperConferenceAuthorGraph/Layout.save";
     } else { //Windows下文件读取
-        fileName = "E:/CppProjects/GraphView/GraphData/PaperConferenceAuthorGraph/Layout.save";
+        fileName = "./GraphData/PaperConferenceAuthorGraph/Layout.save";
     }
     QFile inFile(fileName);
     if(!inFile.open(QIODevice::ReadOnly | QIODevice::Text))

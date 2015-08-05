@@ -30,9 +30,9 @@ void FTopicGraph::readFile()
     QString fileName;
     if(ISWIN == 0) //Mac下文件读取
     {
-        fileName = "/Users/imanity/Documents/Qt/GraphView/GraphData/TopicGraph/Nodes.txt";
+        fileName = "./GraphData/TopicGraph/Nodes.txt";
     } else { //Windows下文件读取
-        fileName = "E:/CppProjects/GraphView/GraphData/TopicGraph/Nodes.txt";
+        fileName = "./GraphData/TopicGraph/Nodes.txt";
     }
     QFile inFile(fileName);
     if(!inFile.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -65,9 +65,9 @@ void FTopicGraph::readFile()
     //读取边信息
     if(ISWIN == 0) //Mac下文件读取
     {
-        fileName = "/Users/imanity/Documents/Qt/GraphView/GraphData/TopicGraph/Edges.txt";
+        fileName = "./GraphData/TopicGraph/Edges.txt";
     } else { //Windows下文件读取
-        fileName = "E:/CppProjects/GraphView/GraphData/TopicGraph/Edges.txt";
+        fileName = "./GraphData/TopicGraph/Edges.txt";
     }
     QFile inFile2(fileName);
     if(!inFile2.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -231,9 +231,9 @@ void FTopicGraph::saveLayout()
     QString fileName;
     if(ISWIN == 0) //Mac下文件读取
     {
-        fileName = "/Users/imanity/Documents/Qt/GraphView/GraphData/TopicGraph/Layout.save";
+        fileName = "./GraphData/TopicGraph/Layout.save";
     } else { //Windows下文件读取
-        fileName = "E:/CppProjects/GraphView/GraphData/TopicGraph/Layout.save";
+        fileName = "./GraphData/TopicGraph/Layout.save";
     }
     QFile outFile(fileName);
     if(!outFile.open(QIODevice::WriteOnly | QIODevice::Text))
@@ -252,9 +252,9 @@ void FTopicGraph::loadLayout()
     QString fileName;
     if(ISWIN == 0) //Mac下文件读取
     {
-        fileName = "/Users/imanity/Documents/Qt/GraphView/GraphData/TopicGraph/Layout.save";
+        fileName = "./GraphData/TopicGraph/Layout.save";
     } else { //Windows下文件读取
-        fileName = "E:/CppProjects/GraphView/GraphData/TopicGraph/Layout.save";
+        fileName = "./GraphData/TopicGraph/Layout.save";
     }
     QFile inFile(fileName);
     if(!inFile.open(QIODevice::ReadOnly | QIODevice::Text))
